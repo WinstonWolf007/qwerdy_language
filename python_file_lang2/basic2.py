@@ -3,68 +3,69 @@
 #####################################
 
 import string
+from ERROR import ERROR
 
 #####################################
 # TOKEN
 #####################################
 
 LETTERS = string.ascii_letters + "_"
-NUMBERS = '0123456789'
-
 TT_VAR = {}
 
-####################################
-# ERROR
-####################################
 
-class ERROR:
-    def __init__(self, error_type, error_detail, error_suggestion=None):
-        self.type = error_type
-        self.detail = error_detail
-        self.info = error_suggestion
-
-    def __str__(self):
-        if self.info is None:
-            return "\033[91m" + f"[{self.type}]: {self.detail}" + "\033[0m"
-        else:
-            return "\033[91m" + f"[{self.type}]: {self.detail} == {self.info}" + "\033[0m"
-
-####################################
-# CODE
-####################################
+##########################################
+# MAIN CODE
+##########################################
 
 class Code:
     def __init__(self, code: str):
         self.code = code.split()
-        self.var()
+        self.CODE_LANG()
 
-    ######################################
+    def CODE_LANG(self):
 
-    def var(self):
+        ########################################################################
+        #                             VARIABLE                                 #
+        ########################################################################
+
         match self.code:
-            #########################################
-            # VARIABLE
-            #########################################
+            case [type_, name, "=", value]:
 
-            # create variable
-            case [type_, name, "=", value] if name[0] == "$":
+                if name[0] == "$":
+                    for letters in name[1:]:
+                        if letters not in LETTERS:
+                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]"))
+                else:
+                    for letters in name:
+                        if letters not in LETTERS:
+                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]"))
 
-                for letters in name[1:]:
-                    if letters not in LETTERS:
-                        print('error letter is not in', LETTERS, f": Expected '{letters}'")
+                if type_[-1] == ':':
+                    if type_[:-1] not in ['int', 'float', 'string', 'bool']:
+                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)"))
+                else:
+                    if type_ not in ['int', 'float', 'string', 'bool']:
+                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)"))
 
                 if type_[-1] != ":":
-                    print("SyntaxError", "is missing ':'", "[type]: $[name] = [value]")
+                    print(ERROR("SyntaxError", f"is missing ':' to the end '{type_}'", "[type]:"))
 
-                if type_[:-1] in ['int', 'float', 'string', 'bool']:
+                if name[0] != "$":
+                    print(ERROR("SyntaxError", "It missing '$' the start of the variable", '$[name]'))
+
+                if type_[:-1] in ['int', 'float', 'string', 'bool'] and type_[-1] == ':' and name[0] == "$":
 
                     if type_[:-1] == 'int':
-                        try: TT_VAR[name[1:]] = [type_[:-1], int(value)]
-                        except: print(ERROR("ValueError", f"'{value}' cannot be an int type"))
+                        try:
+                            TT_VAR[name[1:]] = [type_[:-1], int(value)]
+                        except:
+                            print(ERROR("ValueError", f"'{value}' cannot be an int type"))
 
                     elif type_[:-1] == 'float':
-                        try: TT_VAR[name[1:]] = [type_[:-1], float(value)]
-                        except: print(ERROR("ValueError", f"'{value}' cannot be an float type"))
+                        try:
+                            TT_VAR[name[1:]] = [type_[:-1], float(value)]
+                        except:
+                            print("probleme")
 
                     elif type_[:-1] == 'string':
                         try:
@@ -73,7 +74,8 @@ class Code:
                             else:
                                 print(ERROR("ValueError", f"'{value}' cannot be an string type, he missing the \"\""))
 
-                        except: print(ERROR("ValueError", f"'{value}' cannot be an string type, he missing the '\"\"'"))
+                        except:
+                            print(ERROR("ValueError", f"'{value}' cannot be an string type, he missing the '\"\"'"))
 
                     elif type_[:-1] == 'bool':
                         try:
@@ -83,7 +85,8 @@ class Code:
                                 TT_VAR[name[1:]] = [type_[:-1], 'false']
                             else:
                                 print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
-                        except: print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
+                        except:
+                            print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
 
             # print value variable
             case [name] if name[0] == '$' and len(self.code) == 1:
@@ -93,13 +96,17 @@ class Code:
                     print(ERROR("NameError", f"Variable '{name}' is not exist !"))
 
             # print type variable
-            case ['type:', name] if name[0] == "$":
-                print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
+            case ['type:', name]:
+                try:
+                    print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
+                except:
+                    print(
+                        ERROR("SyntaxError or ValueError", f"Variable '{name}' is not exist or the syntax is incorrect",
+                              "$[name]"))
 
-            #########################################
-            # OPERATOR
-            #########################################
-
+            ########################################################################
+            #                             OPERATOR                                 #
+            ########################################################################
             case [*ops]:
                 number = ops[0::2]
                 operator = ops[1::2]
@@ -122,7 +129,7 @@ class Code:
                                 j += 1
 
                 try:
-                    for x in range(len(number)+len(operator)):
+                    for x in range(len(number) + len(operator)):
                         if bools:
                             resultSTR += str(number[num])
                             bools = False
@@ -132,7 +139,9 @@ class Code:
                             bools = True
                             oper += 1
 
-                    print('\033[34m' + str(eval(resultSTR)) + '\033[0m')
+                    result = eval(resultSTR)
+                    print('\033[34m' + str(result) + '\033[0m')
 
                 except:
-                    print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))
+                    print(ERROR("ValueError",
+                                f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))
