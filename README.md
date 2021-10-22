@@ -1,3 +1,1 @@
-# qwerdy_language in Python
-[TEST] create programing langage in python (read youtube video for create the fist project) -> https://www.youtube.com/watch?v=Eythq9848Fg
-if the finish project, i will create language in C++ or C for more performence, etc...
+
