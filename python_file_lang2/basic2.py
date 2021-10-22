@@ -86,7 +86,7 @@ class Code:
                         except: print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
 
             # print value variable
-            case [name] if name[0] == '$':
+            case [name] if name[0] == '$' and len(self.code) == 1:
                 try:
                     print('\033[34m' + str(TT_VAR.get(name[1:])[1]) + '\033[0m')
                 except:
@@ -96,5 +96,43 @@ class Code:
             case ['type:', name] if name[0] == "$":
                 print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
 
-            case _:
-                print(ERROR("Command not found", f"'{' '.join(self.code)}'"))
+            #########################################
+            # OPERATOR
+            #########################################
+
+            case [*ops]:
+                number = ops[0::2]
+                operator = ops[1::2]
+                resultSTR = ''
+                num = 0
+                oper = 0
+                bools = True
+                j = 0
+
+                for i in number:
+                    if TT_VAR.get(str(i[1:])) is None:
+                        j += 1
+                    else:
+                        if TT_VAR.get(str(i[1:]))[0] in ['float', 'int']:
+                            if TT_VAR.get(str(i[1:]))[0] == 'int':
+                                number[j] = int(TT_VAR.get(str(i[1:]))[1])
+                                j += 1
+                            else:
+                                number[j] = float(TT_VAR.get(str(i[1:]))[1])
+                                j += 1
+
+                try:
+                    for x in range(len(number)+len(operator)):
+                        if bools:
+                            resultSTR += str(number[num])
+                            bools = False
+                            num += 1
+                        else:
+                            resultSTR += str(operator[oper])
+                            bools = True
+                            oper += 1
+
+                    print('\033[34m' + str(eval(resultSTR)) + '\033[0m')
+
+                except:
+                    print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))

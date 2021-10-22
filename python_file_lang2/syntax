@@ -17,8 +17,8 @@ type: $money  >>  float
 
 >> 1 + 4 - 3
 
-operator = ['+', '-']
-number = [1, 4, 3]
+operator = ['+', '-'] == a[1::2]
+number = [1, 4, 3] == a[0::2]
 result = 0
 num = 0
 
