@@ -1,4 +1,4 @@
-from python_file import basic
+from python_file_lang1 import basic
 
 while True:
     text = input('basic > ')
