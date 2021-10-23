@@ -17,8 +17,9 @@ TT_VAR = {}
 ##########################################
 
 class Code:
-    def __init__(self, code: str):
+    def __init__(self, code: str, lineCode):
         self.code = code.split()
+        self.lineCode = lineCode
         self.CODE_LANG()
 
     def CODE_LANG(self):
@@ -31,10 +32,27 @@ class Code:
 
         match self.code:
 
+            case ["help"]:
+                print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
+
+            # give new value in variable exist
             case [name2, '=', *values2]:
                 if name2[0] != "$":
                     print(ERROR('ValueError', f"'{name2}' not found !", "create the variable"))
-                if TT_VAR.get(name2[1:]):
+                    ERROR_CODE = True
+
+                if TT_VAR.get(name2[1:]) is None:
+                    print(ERROR('SyntaxError', f"Variable '{name2}' is not exist", self.lineCode))
+                    ERROR_CODE = True
+
+                if not ERROR_CODE and TT_VAR.get(name2[1:])[0] == 'int' and len(values2) > 1:
+                    v = "".join(values2)
+                    result = eval(v)
+                    TT_VAR[name2[1:]] = ['int', int(result)]
+                    print(TT_VAR[name2[1:]])
+                    print(TT_VAR)
+
+                elif not ERROR_CODE and TT_VAR.get(name2[1:]):
                     TT_VAR[name2[1:]] = [TT_VAR.get(name2[1:])[0], " ".join(values2)]
 
             case [type_, name, "=", *values]:
@@ -45,21 +63,21 @@ class Code:
                 if name[0] == "$":
                     for letters in name[1:]:
                         if letters not in LETTERS:
-                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]"))
+                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]", self.lineCode))
                             ERROR_CODE = True
                 else:
                     for letters in name:
                         if letters not in LETTERS:
-                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]"))
+                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]", self.lineCode))
                             ERROR_CODE = True
 
                 if type_[-1] == ':':
                     if type_[:-1] not in ['int', 'float', 'string', 'bool']:
-                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)"))
+                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)", self.lineCode))
                         ERROR_CODE = True
                 else:
-                    if type_ not in ['int', 'float', 'string', 'bool', 'list']:
-                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)"))
+                    if type_ not in ['int', 'float', 'string', 'bool']:
+                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)", self.lineCode))
                         ERROR_CODE = True
 
                 if type_[-1] != ":":
@@ -72,16 +90,27 @@ class Code:
 
                 if type_[:-1] == "string":
                     if values[0][0] != '"' or values[-1][-1] != '"':
-                        print(ERROR("SyntaxError", f"It missing '\"\"' in type 'string'"))
+                        print(ERROR("SyntaxError", f"It missing '\"\"' in type 'string'", self.lineCode))
                         ERROR_CODE = True
 
                 if type_[:-1] in ['int', 'float', 'string', 'bool'] and type_[-1] == ':' and name[0] == "$" and ERROR_CODE == False:
 
                     if type_[:-1] == 'int':
                         try:
-                            TT_VAR[name[1:]] = [type_[:-1], int(value)]
+                            if len(values) == 1:
+                                TT_VAR[name[1:]] = [type_[:-1], values[0]]
+                            else:
+                                n = 0
+                                for i in values:
+                                    if TT_VAR.get(i[1:]) is not None:
+                                        if TT_VAR.get(i[1:])[0] in ['int', 'float']:
+                                            values[n] = TT_VAR.get(i[1:])[1]
+                                        else:
+                                            print(ERROR('ValueError', f"'{i}' is not int or float", self.lineCode))
+                                    n += 1
+                                TT_VAR[name[1:]] = [type_[:-1], eval(" ".join(values))]
                         except:
-                            print(ERROR("ValueError", f"'{value}' cannot be an int type"))
+                            print(ERROR("ValueError", f"'{value}' cannot be an int type", self.lineCode))
 
                     elif type_[:-1] == 'float':
                         try:
@@ -100,20 +129,16 @@ class Code:
                             elif value == 'false':
                                 TT_VAR[name[1:]] = [type_[:-1], 'false']
                             else:
-                                print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
+                                print(ERROR("ValueError", f"'{value}' cannot be an bool type", self.lineCode))
                         except:
-                            print(ERROR("ValueError", f"'{value}' cannot be an bool type"))
+                            print(ERROR("ValueError", f"'{value}' cannot be an bool type", self.lineCode))
 
             # print value variable
             case [name] if name[0] == '$' and len(self.code) == 1:
                 try:
-                    try:
-                        idx = str(name).split(':')[1]
-                        print('\033[34m' + str(TT_VAR.get(name[1:])[1][int(idx)]) + '\033[0m')
-                    except:
-                        print('\033[34m' + str(TT_VAR.get(name[1:])[1]) + '\033[0m')
+                    print('\033[34m' + str(TT_VAR.get(name[1:])[1]) + '\033[0m')
                 except:
-                    print(ERROR("NameError", f"Variable '{name}' is not exist !"))
+                    print(ERROR("NameError", f"Variable '{name}' is not exist", self.lineCode))
 
             # print type variable
             case ['type:', name]:
@@ -153,7 +178,7 @@ class Code:
                                     number[j] = float(TT_VAR.get(str(i[1:]))[1])
                                     j += 1
                             else:
-                                print(ERROR("CrachCodeError", f"Fatal error", "this bug"))
+                                print(ERROR("CrachCodeError", f"Fatal error", self.lineCode))
                                 ERROR_CODE = True
 
                     try:
@@ -172,10 +197,10 @@ class Code:
                                 result = eval(resultSTR)
                                 print('\033[34m' + str(result) + '\033[0m')
                             except ZeroDivisionError:
-                                print(ERROR("ZeroDivisionError", 'the number cannot be divided by 0'))
+                                print(ERROR("ZeroDivisionError", 'the number cannot be divided by 0', self.lineCode))
                             except:
-                                print(ERROR("ValueError", 'problem in syntax do your operator', 'Exp: 1 + 2 - 3 * 4 / 5'))
+                                print(ERROR("ValueError", 'problem in syntax do your operator', self.lineCode, 'Exp: 1 + 2 - 3 * 4 / 5'))
                     except:
-                        print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))
+                        print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'", self.lineCode))
             case _:
-                print(ERROR("CommandError", f"{self.code} is not found !", "'help' command for vew all command"))
+                print(ERROR("CommandError", f"{self.code} is not found !", self.lineCode, "'help' command for vew all command"))

@@ -1,5 +1,135 @@
-[VARIABLE] ()
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~~~~~INFO VARIABLE~~~~~~~~~~~~~~~~~~~~~~~~
 
-[COMMENTAIRE]
-// salut
+[TYPE]
+  * int
+  * bool
+  * float
+  * string
 
+[SYNTAX CHAR NAME]
+    * a b c d e f g h i j k l m n o p q r s t u v w x y z
+    * A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+    * _
+
+[ALL VALUE]
+    * (numbers) = 0 1 2 3 4 5 6 7 8 9
+    * (numbers float) = 1.2 2.5 8.4 9.2 4.6 9.1
+    * (string) = "all number" "all char" "all letter"
+    * (booleen) = true false
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~CREATE VARIABLE~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{SYNTAX}
+
+[type]: $[name] = [value]
+
+{CODE}
+
+>> int: $years = 2
+>> string: $name = "jack"
+>> float: $money = 25.30
+>> bool: $is_ready = true
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~ASSIGN A NEW VALUE VARIABLE~~~~~~~~~~~~~~~~~~
+
+{IMPORTANT}
+
+the variable must be already created with no errors
+
+{SYNTAX}
+
+$[name] = [value]
+
+{CODE}
+
+>> int: $years = 2
+>> $years = 5
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~~~~~~CALL VARIABLE~~~~~~~~~~~~~~~~~~~~~~~
+
+{IMPORTANT}
+
+the variable must be already created with no errors
+
+{SYNTAX}
+
+$[name]
+
+{CODE}
+
+>> int: $years = 2
+>> $years
+>> 2
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~~OPERATOR IN VARIABLE~~~~~~~~~~~~~~~~~~~~
+
+{IMPORTANT}
+
+the variable must be already created with no errors
+the variable type must be 'int' or 'float'
+
+{SYNTAX}
+
+[type]: $[name] = [operator]
+
+{CODE}
+
+>> int: $result = 1 + 3 - 2
+>> $result
+>> 2
+
+>> int: $a = 2
+>> int: $b = 3
+>> int: $result = $a + $b
+>> $result
+>> 5
+
+
+########################################################################################################################
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~~~~~INFO OPERATOR~~~~~~~~~~~~~~~~~~~~~~~~
+
+[type]
+    * int
+    * float
+
+[CHAR]
+    '+' add value
+    '-' remove value
+    '*' multiply value
+    '/' divide value
+    '()' priority operation
+
+[NUMBER]
+    * all int
+    * all float
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~CONSOLE OPERATOR~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{SYNTAX}
+
+[OPERATION]
+
+{CODE}
+
+>> 1 + 3
+>> 4
+
+>> 4 * (2 + 4)
+>> 24
+
+>> int: $number_one = 3
+>> 1 + $number_one
+>> 4
