@@ -1,5 +1,6 @@
 [VARIABLE] ()
-
+list: $name > [1, 2, 3]
+$name:2  >> 3
 
 [COMMENTAIRE]
 // salut
