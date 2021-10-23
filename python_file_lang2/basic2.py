@@ -31,6 +31,12 @@ class Code:
 
         match self.code:
 
+            case [name2, '=', *values2]:
+                if name2[0] != "$":
+                    print(ERROR('ValueError', f"'{name2}' not found !", "create the variable"))
+                if TT_VAR.get(name2[1:]):
+                    TT_VAR[name2[1:]] = [TT_VAR.get(name2[1:])[0], " ".join(values2)]
+
             case [type_, name, "=", *values]:
 
                 if type_[:-1] != "string":
@@ -162,11 +168,13 @@ class Code:
                                     bools = True
                                     oper += 1
 
-                            result = eval(resultSTR)
-                            print('\033[34m' + str(result) + '\033[0m')
-                        else:
-                            print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))
-
+                            try:
+                                result = eval(resultSTR)
+                                print('\033[34m' + str(result) + '\033[0m')
+                            except ZeroDivisionError:
+                                print(ERROR("ZeroDivisionError", 'the number cannot be divided by 0'))
+                            except:
+                                print(ERROR("ValueError", 'problem in syntax do your operator', 'Exp: 1 + 2 - 3 * 4 / 5'))
                     except:
                         print(ERROR("ValueError", f"type '{str(TT_VAR.get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'"))
             case _:
