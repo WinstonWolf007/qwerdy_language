@@ -1,6 +1,5 @@
 from basic2 import *
 
-
 lineCode = 0
 
 print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [5.0]\033[90m")

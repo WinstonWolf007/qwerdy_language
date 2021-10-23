@@ -4,6 +4,7 @@
 
 import string
 from ERROR import ERROR
+from checkType import CheckTypeVariable
 
 #####################################
 # TOKEN
@@ -32,6 +33,7 @@ class Code:
 
         match self.code:
 
+            # help command
             case ["help"]:
                 print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
 
