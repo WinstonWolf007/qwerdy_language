@@ -13,6 +13,7 @@ from checkType import CheckTypeVariable
 LETTERS = string.ascii_letters + "_"
 TT_VAR = {}
 
+
 ##########################################
 # MAIN CODE
 ##########################################
@@ -33,12 +34,18 @@ class Code:
 
         match self.code:
 
+            # write file
+            case ['qwerdy', '-o', file]:
+                print(file)
+
             # help command
             case ["help"]:
                 print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
 
             # give new value in variable exist
             case [name2, '=', *values2]:
+
+                # check error
                 if name2[0] != "$":
                     print(ERROR('ValueError', f"'{name2}' not found !", "create the variable"))
                     ERROR_CODE = True
@@ -57,45 +64,10 @@ class Code:
                 elif not ERROR_CODE and TT_VAR.get(name2[1:]):
                     TT_VAR[name2[1:]] = [TT_VAR.get(name2[1:])[0], " ".join(values2)]
 
+            # create variable
             case [type_, name, "=", *values]:
-
-                if type_[:-1] != "string":
-                    value = values[0]
-
-                if name[0] == "$":
-                    for letters in name[1:]:
-                        if letters not in LETTERS:
-                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]", self.lineCode))
-                            ERROR_CODE = True
-                else:
-                    for letters in name:
-                        if letters not in LETTERS:
-                            print(ERROR("SyntaxError", f"Expected '{letters}' is not in [{LETTERS}]", self.lineCode))
-                            ERROR_CODE = True
-
-                if type_[-1] == ':':
-                    if type_[:-1] not in ['int', 'float', 'string', 'bool']:
-                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)", self.lineCode))
-                        ERROR_CODE = True
-                else:
-                    if type_ not in ['int', 'float', 'string', 'bool']:
-                        print(ERROR("TypeError", f"'{type_}' is not exist in (int, float, string, bool)", self.lineCode))
-                        ERROR_CODE = True
-
-                if type_[-1] != ":":
-                    print(ERROR("SyntaxError", f"is missing ':' to the end '{type_}'", "[type]:"))
-                    ERROR_CODE = True
-
-                if name[0] != "$":
-                    print(ERROR("SyntaxError", "It missing '$' the start of the variable", '$[name]'))
-                    ERROR_CODE = True
-
-                if type_[:-1] == "string":
-                    if values[0][0] != '"' or values[-1][-1] != '"':
-                        print(ERROR("SyntaxError", f"It missing '\"\"' in type 'string'", self.lineCode))
-                        ERROR_CODE = True
-
-                if type_[:-1] in ['int', 'float', 'string', 'bool'] and type_[-1] == ':' and name[0] == "$" and ERROR_CODE == False:
+                ERROR().checkErrorCreateVar(name, type_, values, LETTERS, CheckTypeVariable)
+                if not ERROR_CODE:
 
                     if type_[:-1] == 'int':
                         try:
@@ -112,13 +84,13 @@ class Code:
                                     n += 1
                                 TT_VAR[name[1:]] = [type_[:-1], eval(" ".join(values))]
                         except:
-                            print(ERROR("ValueError", f"'{value}' cannot be an int type", self.lineCode))
+                            print(ERROR("ValueError", f"'{values}' cannot be an int type", self.lineCode))
 
                     elif type_[:-1] == 'float':
                         try:
-                            TT_VAR[name[1:]] = [type_[:-1], float(value)]
+                            TT_VAR[name[1:]] = [type_[:-1], float(values[0])]
                         except:
-                            print("probleme")
+                            pass
 
                     elif type_[:-1] == 'string':
                         if values[0][0] == '"' and values[-1][-1] == '"':
@@ -126,14 +98,14 @@ class Code:
 
                     elif type_[:-1] == 'bool':
                         try:
-                            if value == 'true':
+                            if values[0] == 'true':
                                 TT_VAR[name[1:]] = [type_[:-1], 'true']
-                            elif value == 'false':
+                            elif values[0] == 'false':
                                 TT_VAR[name[1:]] = [type_[:-1], 'false']
                             else:
-                                print(ERROR("ValueError", f"'{value}' cannot be an bool type", self.lineCode))
+                                print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
                         except:
-                            print(ERROR("ValueError", f"'{value}' cannot be an bool type", self.lineCode))
+                            print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
 
             # print value variable
             case [name] if name[0] == '$' and len(self.code) == 1:
@@ -147,9 +119,7 @@ class Code:
                 try:
                     print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
                 except:
-                    print(
-                        ERROR("SyntaxError or ValueError", f"Variable '{name}' is not exist or the syntax is incorrect",
-                              "$[name]"))
+                    print(ERROR("SyntaxError or ValueError", f"Variable '{name}' is not exist or the syntax is incorrect", "$[name]"))
 
             case ['list:', names, '>', *lists] if lists[0][0] == '[' and lists[-1][-1] == ']' and names[0] == '$':
                 list1 = "".join(lists).replace(" ", "").replace("[", "").replace("]", "").split(",")
