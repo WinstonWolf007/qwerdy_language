@@ -1,5 +1,28 @@
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~FUNCTION LANGUAGE~~~~~~~~~~~~~~~~~~~~
 
-DO: [name] [operator] [name2] ?
+// display console
+LOG: $[*name]
+*name = variable or value
+
+>> LOG: $years
+>> 13
+
+>> LOG: "hello world"
+>> "hello world"
+
+=======================================
+
+// vew variable type
+*type: $[name]
+*type display all type [int, float, bool, string]
+
+>> type: $name
+>> <typeof 'string'>
+
+
+###########################################################
+
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 ~~~~~~~~~~~~~~~~~~~~~~~INFO VARIABLE~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,10 +122,11 @@ the variable type must be 'int' or 'float'
 
 ########################################################################################################################
 
+
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 ~~~~~~~~~~~~~~~~~~~~~~~INFO OPERATOR~~~~~~~~~~~~~~~~~~~~~~~~
 
-[type]
+[TYPE]
     * int
     * float
 
@@ -136,3 +160,56 @@ the variable type must be 'int' or 'float'
 >> int: $number_one = 3
 >> 1 + $number_one
 >> 4
+
+
+########################################################################################################################
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~~~~~INFO CONDITION~~~~~~~~~~~~~~~~~~~~~~~
+
+[TYPE]
+    * DO (small condition)
+    * IF, ELSE, ELSIF (big condition)
+
+[CHAR]
+    * all int
+    * all float
+    * all string
+    * [==, <, >, <=, >=]
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+~~~~~~~~~~~~~~~~~~~CONDITION OPERATOR~~~~~~~~~~~~~~~~~~~~~~~
+
+{SYNTAX - DO}
+
+DO: [*name] [*operator] [*name2] ?
+
+*name, *name2 = all variable (always 'bool' type) and all char
+*operator = [==, <, >, <=, >=]
+
+{CODE - DO}
+
+>> DO: 1 == 1 ?
+>> true
+
+>> DO: 6 < 2 ?
+>> false
+
+>> bool: $equal = DO: 2 == 2 ?
+>> $equal
+>> true
+
+>> int: $a = 2
+>> int: $b = 5
+>> bool: $c = DO: $a < $b ?
+>> $c
+>> true
+
+
+{SYNTAX - IF, ELSE, ELSIF}
+
+IF: 4 == 4 {
+
+}

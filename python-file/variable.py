@@ -1,4 +1,5 @@
 from ERROR import ERROR
+from data import Data
 
 class Variable:
     def __init__(self, TT_VAR, line):

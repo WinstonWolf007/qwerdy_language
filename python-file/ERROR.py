@@ -1,5 +1,5 @@
 class ERROR:
-    def __init__(self, error_type="", error_detail="", errorLine="", error_suggestion=None):
+    def __init__(self, error_type="", error_detail="", errorLine=0, error_suggestion=None):
         self.type = error_type
         self.detail = error_detail
         self.info = error_suggestion
@@ -16,7 +16,7 @@ class ERROR:
 
         # check error
         if name[0] != "$":
-            print(ERROR("SyntaxError", "It missing '$' the start of the variable", '$[name]'))
+            print(ERROR("SyntaxError", "It missing '$' the start of the variable", self.lineCode, '$[name]'))
             ERROR_CODE = True
 
         if name[0] == "$":
@@ -26,7 +26,7 @@ class ERROR:
                     ERROR_CODE = True
 
         if type_[-1] != ":":
-            print(ERROR("SyntaxError", f"is missing ':' to the end '{type_}'", "[type]:"))
+            print(ERROR("SyntaxError", f"is missing ':' to the end '{type_}'", self.lineCode,  "[type]:"))
             ERROR_CODE = True
 
         if type_[-1] == ':':
@@ -53,6 +53,6 @@ class ERROR:
                     print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCode))
                     ERROR_CODE = True
         else:
-            print(ERROR('ValueTypeVariable', f"the type '{type_[:-1]}' is not exist. the variables type is (int, float, string, bool)", self.lineCode))
+            print(ERROR('ValueTypeVariable', f"the type '{type_}' is not exist. the variables type is (int, float, string, bool)", self.lineCode))
             ERROR_CODE = True
 
