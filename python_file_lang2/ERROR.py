@@ -48,9 +48,10 @@ class ERROR:
                 print(ERROR("SyntaxError", f"It missing '\"\"' in type 'string'", self.lineCode))
                 ERROR_CODE = True
 
-            elif type_[:-1] == 'bool' and not CheckTypeVariable(values).is_bool():
-                print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCode))
-                ERROR_CODE = True
+            elif type_[:-1] == 'bool':
+                if len(values) == 1 and values[0] not in ['true', 'false']:
+                    print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCode))
+                    ERROR_CODE = True
         else:
             print(ERROR('ValueTypeVariable', f"the type '{type_[:-1]}' is not exist. the variables type is (int, float, string, bool)", self.lineCode))
             ERROR_CODE = True
