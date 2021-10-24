@@ -5,6 +5,7 @@
 import string
 from ERROR import ERROR
 from checkType import CheckTypeVariable
+from variable import Variable
 
 #####################################
 # TOKEN
@@ -43,40 +44,41 @@ class Code:
             ########################################################################
 
             # small condition
-            case ['DO', name1, operator, name2, '?']:
+            case ['DO:', name1, operator, name2, '?']:
+                def smallCond(name1_, operator_, name2_):
 
-                try:
-                    name1 = TT_VAR.get(name1[1:])[1]
-                    print(TT_VAR.get(name1[1:])[1])
-                except: pass
+                    try:
+                        name1_ = TT_VAR.get(name1_[1:])[1]
+                    except: pass
 
-                try:
-                    name2 = TT_VAR.get(name2[1:])[1]
-                    print(TT_VAR.get(name2[1:])[1])
-                except: pass
+                    try:
+                        name2_ = TT_VAR.get(name2_[1:])[1]
+                    except: pass
 
-                if operator in ['==', '>', '>=', "<", "<="]:
-                    if operator == "==":
-                        result = True if name1 == name2 else False
-                        print(result)
-                    elif operator == ">":
-                        result = True if name1 > name2 else False
-                        print(result)
-                    elif operator == ">=":
-                        result = True if name1 >= name2 else False
-                        print(result)
-                    elif operator == "<":
-                        result = True if name1 < name2 else False
-                        print(result)
-                    elif operator == '<=':
-                        result = True if name1 <= name2 else False
-                        print(result)
+                    if operator_ in ['==', '>', '>=', "<", "<="]:
+                        if operator_ == "==":
+                            result = True if name1_ == name2_ else False
+                            print(result)
+                        elif operator_ == ">":
+                            result = True if name1_ > name2_ else False
+                            print(result)
+                        elif operator_ == ">=":
+                            result = True if name1_ >= name2_ else False
+                            print(result)
+                        elif operator_ == "<":
+                            result = True if name1_ < name2_ else False
+                            print(result)
+                        elif operator_ == '<=':
+                            result = True if name1_ <= name2_ else False
+                            print(result)
+                        else:
+                            result = False
+                            print(result)
                     else:
-                        result = False
-                        print(result)
-                else:
-                    print(ERROR('SyntaxError', f"'{operator}' is not exist"))
-                    ERROR_CODE = True
+                        print(ERROR('SyntaxError', f"'{operator}' is not exist"))
+                        ERROR_CODE = True
+
+                smallCond(name1, operator, name2)
 
             ########################################################################
             #                             VARIABLE                                 #
@@ -152,17 +154,19 @@ class Code:
 
             # print value variable
             case [name] if name[0] == '$' and len(self.code) == 1:
-                try:
-                    print('\033[34m' + str(TT_VAR.get(name[1:])[1]) + '\033[0m')
-                except:
-                    print(ERROR("NameError", f"Variable '{name}' is not exist", self.lineCode))
+                pass
 
             # print type variable
             case ['type:', name]:
-                try:
-                    print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
-                except:
-                    print(ERROR("SyntaxError or ValueError", f"Variable '{name}' is not exist or the syntax is incorrect", "$[name]"))
+                if name[0] != "$":
+                    print(ERROR("SyntaxError", f"It missing '$' the start of the variable", self.lineCode, "type: $[name]"))
+                    ERROR_CODE = True
+
+                if not ERROR_CODE:
+                    try:
+                        print('\033[34m' + f"<typeof '{str(TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
+                    except:
+                        print(ERROR("SyntaxError or ValueError", f"Variable '{name}' is not exist or the syntax is incorrect", "$[name]"))
 
             case ['list:', names, '>', *lists] if lists[0][0] == '[' and lists[-1][-1] == ']' and names[0] == '$':
                 list1 = "".join(lists).replace(" ", "").replace("[", "").replace("]", "").split(",")
