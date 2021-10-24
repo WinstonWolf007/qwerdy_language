@@ -39,6 +39,12 @@ class Code:
 
         ERROR_CODE = False
 
+        if self.code[-1][-1] != ";":
+            print(ERROR("SyntaxError", "it missing ';' the end code", self.lineCode))
+            exit()
+        else:
+            self.code = " ".join(self.code).replace(";", '').split(" ")
+
         match self.code:
 
             # write file
@@ -139,26 +145,8 @@ class Code:
                             print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
 
             # print value variable
-            case [name] if name[0] == '$' and len(self.code) == 1:
+            case ['OUT:', name] if name[0] == '$' and len(self.code) == 2:
                 self.VARIABLE_CLASS.displayValueVariable(name)
-
-            case ['LOG:', *name]:
-                if name[0] in ['true', 'false']: print('\033[34m' + name[0] + '\033[0m')
-                elif name[0][0] == '$' and len(name) == 1: self.VARIABLE_CLASS.displayValueVariable(name[0])
-                elif name[0][0] == '"' and name[-1][-1] == '"': print('\033[34m' + " ".join(name) + '\033[0m')
-                else:
-                    try:
-                        n = 0
-                        for i in name:
-                            if self.data.GET_var().get(i[1:]) is not None:
-                                if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
-                                    name[n] = self.data.GET_var().get(i[1:])[1]
-                                else:
-                                    print(ERROR('ValueError', f"'{i}' is not int or float", self.lineCode))
-                            n += 1
-                        print('\033[34m' + str(eval(" ".join(name))) + '\033[0m')
-                    except:
-                        print(ERROR('ValueError', 'crash "LOG" function', self.lineCode))
 
             # print type variable
             case ['type:', name]:
@@ -172,7 +160,7 @@ class Code:
             ########################################################################
             #                             OPERATOR                                 #
             ########################################################################
-            case [*ops] if len(ops) >= 3:
+            case ['OUT:', *ops] if len(ops) >= 3:
                 if not ERROR_CODE:
                     number = ops[0::2]
                     operator = ops[1::2]

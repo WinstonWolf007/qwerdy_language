@@ -2,13 +2,13 @@
 ~~~~~~~~~~~~~~~~~~FUNCTION LANGUAGE~~~~~~~~~~~~~~~~~~~~
 
 // display console
-LOG: $[*name]
+OUT: $[*name]
 *name = variable or value
 
->> LOG: $years
+>> OUT: $years
 >> 13
 
->> LOG: "hello world"
+>> OUT: "hello world"
 >> "hello world"
 
 =======================================
