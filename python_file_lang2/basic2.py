@@ -28,10 +28,6 @@ class Code:
 
         ERROR_CODE = False
 
-        ########################################################################
-        #                             VARIABLE                                 #
-        ########################################################################
-
         match self.code:
 
             # write file
@@ -41,6 +37,50 @@ class Code:
             # help command
             case ["help"]:
                 print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
+
+            ########################################################################
+            #                            CONDITION                                 #
+            ########################################################################
+
+            # small condition
+            case ['DO', name1, operator, name2, '?']:
+
+                try:
+                    name1 = TT_VAR.get(name1[1:])[1]
+                    print(TT_VAR.get(name1[1:])[1])
+                except: pass
+
+                try:
+                    name2 = TT_VAR.get(name2[1:])[1]
+                    print(TT_VAR.get(name2[1:])[1])
+                except: pass
+
+                if operator in ['==', '>', '>=', "<", "<="]:
+                    if operator == "==":
+                        result = True if name1 == name2 else False
+                        print(result)
+                    elif operator == ">":
+                        result = True if name1 > name2 else False
+                        print(result)
+                    elif operator == ">=":
+                        result = True if name1 >= name2 else False
+                        print(result)
+                    elif operator == "<":
+                        result = True if name1 < name2 else False
+                        print(result)
+                    elif operator == '<=':
+                        result = True if name1 <= name2 else False
+                        print(result)
+                    else:
+                        result = False
+                        print(result)
+                else:
+                    print(ERROR('SyntaxError', f"'{operator}' is not exist"))
+                    ERROR_CODE = True
+
+            ########################################################################
+            #                             VARIABLE                                 #
+            ########################################################################
 
             # give new value in variable exist
             case [name2, '=', *values2]:
@@ -98,12 +138,15 @@ class Code:
 
                     elif type_[:-1] == 'bool':
                         try:
-                            if values[0] == 'true':
-                                TT_VAR[name[1:]] = [type_[:-1], 'true']
-                            elif values[0] == 'false':
-                                TT_VAR[name[1:]] = [type_[:-1], 'false']
-                            else:
-                                print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
+                            if len(values) == 1:
+                                if values[0] == 'true':
+                                    TT_VAR[name[1:]] = [type_[:-1], 'true']
+                                elif values[0] == 'false':
+                                    TT_VAR[name[1:]] = [type_[:-1], 'false']
+                                else:
+                                    print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
+                            elif values[0] == "DO" and values[-1] == "?":
+                                print("small condition detected")
                         except:
                             print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
 
