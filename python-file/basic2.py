@@ -15,15 +15,17 @@ from condition import Condition
 #####################################
 
 LETTERS = string.ascii_letters + "_"
+IS_FILE = False
 
 ##########################################
 # MAIN CODE
 ##########################################
 
 class Code:
-    def __init__(self, code: str, lineCode):
-        self.code = code.split()
+    def __init__(self, code, lineCode, file=False):
+        self.code = code.split() if isinstance(code, str) else code
         self.lineCode = lineCode
+        self.file = file
 
         # data
         self.data = Data()
@@ -32,14 +34,24 @@ class Code:
         self.VARIABLE_CLASS = Variable(self.data.GET_var(), self.lineCode)
         self.CONDITION_CLASS = Condition(self.data.GET_var(), self.lineCode, LETTERS)
 
-        # run code
-        self.CODE_LANG()
+        if self.file:
+            self.CODE_FILE()
+        else:
+            self.CODE_LANG()
+
+    def CODE_FILE(self):
+        code_stock = self.code
+
+        for i in code_stock:
+            self.code = i.split()
+            self.CODE_LANG()
+            self.lineCode += 1
 
     def CODE_LANG(self):
 
         ERROR_CODE = False
 
-        if self.code[-1][-1] != ";":
+        if not self.file and self.code[-1][-1] != ";":
             print(ERROR("SyntaxError", "it missing ';' the end code", self.lineCode))
             exit()
         else:
@@ -76,7 +88,7 @@ class Code:
 
                 # check error
                 if name2[0] != "$":
-                    print(ERROR('ValueError', f"'{name2}' not found !", "create the variable"))
+                    print(ERROR('ValueError', f"'{name2}' not found !", "create the variable", self.lineCode))
                     ERROR_CODE = True
 
                 if self.data.GET_var().get(name2[1:]) is None:
@@ -95,7 +107,7 @@ class Code:
 
             # create variable
             case [type_, name, "=", *values]:
-                ERROR().checkErrorCreateVar(name, type_, values, LETTERS, CheckTypeVariable)
+                ERROR('', '', 0).checkErrorCreateVar(name, type_, values, LETTERS, CheckTypeVariable)
                 if not ERROR_CODE:
 
                     if type_[:-1] == 'int':
@@ -136,7 +148,7 @@ class Code:
                                 else:
                                     print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
 
-                            elif values[0] == "DO:" and values[4] == "?":
+                            elif values[0] == "DO:" and values[2] in ['==', '>', '>=', '<', "<="]:
                                 if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):
                                     self.data.POST_var(name[1:], [type_[:-1], 'true'])
                                 else:
@@ -145,8 +157,11 @@ class Code:
                             print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
 
             # print value variable
-            case ['OUT:', name] if name[0] == '$' and len(self.code) == 2:
-                self.VARIABLE_CLASS.displayValueVariable(name)
+            # case ['OUT:', name] if len(self.code) == 2:
+            #     if name[0] == '$':
+            #         self.VARIABLE_CLASS.displayValueVariable(name)
+            #     else:
+            #         print(ERROR("SyntaxError", f"it missing '$' the start variable '{name}'", self.lineCode))
 
             # print type variable
             case ['type:', name]:
@@ -160,8 +175,12 @@ class Code:
             ########################################################################
             #                             OPERATOR                                 #
             ########################################################################
-            case ['OUT:', *ops] if len(ops) >= 3:
-                if not ERROR_CODE:
+            case ['OUT:', *ops]:
+                if CheckTypeVariable(ops).is_string():
+                    print(" ".join(ops))
+                elif len(ops) == 1:
+                    self.VARIABLE_CLASS.displayValueVariable(ops[0])
+                else:
                     number = ops[0::2]
                     operator = ops[1::2]
                     resultSTR = ''
@@ -198,6 +217,9 @@ class Code:
                                     oper += 1
 
                             try:
+                                """
+                                    bug is it
+                                """
                                 result = eval(resultSTR)
                                 print('\033[34m' + str(result) + '\033[0m')
                             except ZeroDivisionError:

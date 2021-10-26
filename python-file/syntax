@@ -1,3 +1,10 @@
+create function
+
+FUNC: $calcul(int: $a, int: $b) {
+
+}
+
+
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 ~~~~~~~~~~~~~~~~~~FUNCTION LANGUAGE~~~~~~~~~~~~~~~~~~~~
 
@@ -210,6 +217,6 @@ DO: [*name] [*operator] [*name2] ?
 
 {SYNTAX - IF, ELSE, ELSIF}
 
-IF: 4 == 4 {
-
-}
+IF: $age > 17 ? OUT: "tu es majeur"
+ELSIF: $age < 18 ? OUT: "tu es mineur"
+ELSE: ? OUT: "error"
