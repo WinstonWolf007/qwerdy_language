@@ -1,4 +1,4 @@
-from ERROR import ERROR
+from error import Error
 from checkType import CheckTypeVariable
 
 class Condition:

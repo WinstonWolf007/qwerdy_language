@@ -1,4 +1,4 @@
-from ERROR import ERROR
+from error import *
 from data import Data
 
 class Variable:

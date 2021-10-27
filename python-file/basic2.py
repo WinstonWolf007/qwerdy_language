@@ -3,7 +3,7 @@
 #####################################
 import string
 
-from ERROR import ERROR
+from error import *
 from checkType import CheckTypeVariable
 from data import Data
 
@@ -52,8 +52,7 @@ class Code:
         ERROR_CODE = False
 
         if not self.file and self.code[-1][-1] != ";":
-            print(ERROR("SyntaxError", "it missing ';' the end code", self.lineCode))
-            exit()
+            ERROR("SyntaxError", "it missing ';' the end code", self.lineCode)
         else:
             self.code = " ".join(self.code).replace(";", '').split(" ")
 
@@ -107,7 +106,7 @@ class Code:
 
             # create variable
             case [type_, name, "=", *values]:
-                ERROR('', '', 0).checkErrorCreateVar(name, type_, values, LETTERS, CheckTypeVariable)
+                CheckIfError().createVariable(name, type_, values, LETTERS, CheckTypeVariable, self.lineCode, self.file, self.code)
                 if not ERROR_CODE:
 
                     if type_[:-1] == 'int':
