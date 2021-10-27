@@ -18,20 +18,38 @@ class Error:
                 f"It missing '$' the start of the variable name '{self.CODE_variable_name}'",
                 "It missing ';' the end code",
                 f"It missing ':' the end variable type '{self.CODE_variable_type}'",
-                f"Expected '{self.CODE_variable_name_letter}' in variable name is not in [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]"
+                f"Expected '{self.CODE_variable_name_letter}' in variable name is not in [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]",
+                f"It missing '\"\"' for 'string' type of the variable value '{self.CODE_variable_value}'",
+                "problem in your operator"
             ],
-            'ValueError': [],
+            'ValueError': [
+                f"'{self.CODE_variable_value}' cannot be this value with the type '{self.CODE_variable_type}'",
+                f"'{self.CODE_variable_value}' is not int or float",
+            ],
             'TypeError': [
                 f"'{self.CODE_variable_type}' is not exist in (int, float, string, bool)"
             ],
-            'ZeroDivisionError': [],
-            'NameError': []
+            'ZeroDivisionError': [
+                f"the number '{self.CODE_variable_value}' cannot be divided by 0"
+            ],
+            'NameError': [
+                f"Variable '{self.CODE_variable_name}' is not exist !"
+            ],
+            'FatalError': [
+                'error not found, fatal error',
+                'command not found !'
+            ]
         }
 
         self.error_detail = self.error_list.get(self.error_type)[self.index]
 
+        if self.error_type == 'SyntaxError' and self.index == 1:
+            pass
+        else:
+            self.code_line += ";"
+
         print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{self.error_type}]: {self.error_detail}" + "\033[0m")
-        exit(0)
+        exit(2)
 
 class CheckIfError:
 
@@ -48,27 +66,19 @@ class CheckIfError:
                 Error('SyntaxError', 3, Error_line, Error_code_line, Error_file, CODE_variable_name_letter=letters)
 
         if type_[:-1] not in ['int', 'float', 'string', 'bool']:
-                print(ERROR("TypeError", 0, self.lineCodeERROR))
-                ERROR_CODE = True
+            Error('TypeError', 0, Error_line, Error_code_line, Error_file, CODE_variable_type=type_)
 
-        if type_[:-1] in ['int', 'float', 'string', 'bool']:
+        else:
 
             if type_[:-1] == 'int' and len(values) == 1 and not CheckTypeVariable(values).is_int():
-                print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCodeERROR))
-                ERROR_CODE = True
+                Error('ValueError', 0, Error_line, Error_code_line, Error_file, CODE_variable_type=type_, CODE_variable_value="".join(values))
 
             elif type_[:-1] == 'float' and not CheckTypeVariable(values).is_float():
-                print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCodeERROR))
-                ERROR_CODE = True
+                Error('ValueError', 0, Error_line, Error_code_line, Error_file, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
 
             elif type_[:-1] == 'string' and not CheckTypeVariable(values).is_string():
-                print(ERROR("SyntaxError", f"It missing '\"\"' in type 'string'", self.lineCodeERROR))
-                ERROR_CODE = True
+                Error('SyntaxError', 4, Error_line, Error_code_line, Error_file, CODE_variable_value=" ".join(values))
 
             elif type_[:-1] == 'bool':
                 if len(values) == 1 and values[0] not in ['true', 'false']:
-                    print(ERROR("ValueError", f"'{values}' cannot be this value with the type '{type_}'", self.lineCodeERROR))
-                    ERROR_CODE = True
-        else:
-            print(ERROR('ValueTypeVariable', f"the type '{type_}' is not exist. the variables type is (int, float, string, bool)", self.lineCodeERROR))
-            ERROR_CODE = True
+                    Error('ValueError', 0, Error_line, Error_code_line, Error_file, CODE_variable_value=values[0])

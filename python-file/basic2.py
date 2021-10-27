@@ -52,15 +52,11 @@ class Code:
         ERROR_CODE = False
 
         if not self.file and self.code[-1][-1] != ";":
-            ERROR("SyntaxError", "it missing ';' the end code", self.lineCode)
+            Error('SyntaxError', 1, self.lineCode, self.code, self.file)
         else:
             self.code = " ".join(self.code).replace(";", '').split(" ")
 
         match self.code:
-
-            # write file
-            case ['qwerdy', '-o', file]:
-                print(file)
 
             # help command
             case ["help"]:
@@ -85,23 +81,18 @@ class Code:
             # give new value in variable exist
             case [name2, '=', *values2]:
 
-                # check error
-                if name2[0] != "$":
-                    print(ERROR('ValueError', f"'{name2}' not found !", "create the variable", self.lineCode))
-                    ERROR_CODE = True
-
                 if self.data.GET_var().get(name2[1:]) is None:
-                    print(ERROR('SyntaxError', f"Variable '{name2}' is not exist", self.lineCode))
+                    Error('NameError', 0, self.lineCode, self.code, self.file, CODE_variable_name=name2)
                     ERROR_CODE = True
 
-                if not ERROR_CODE and self.data.GET_var().get(name2[1:])[0] == 'int' and len(values2) > 1:
+                if self.data.GET_var().get(name2[1:])[0] == 'int' and len(values2) > 1:
                     v = "".join(values2)
                     result = eval(v)
                     self.data.POST_var(name2[1:], ['int', int(result)])
                     print(self.data.GET_var(name2[1:]))
                     print(self.data.GET_var())
 
-                elif not ERROR_CODE and self.data.GET_var().get(name2[1:]):
+                elif self.data.GET_var().get(name2[1:]):
                     self.data.POST_var(name2[1:], [self.data.GET_var().get(name2[1:])[0], " ".join(values2)])
 
             # create variable
@@ -113,6 +104,8 @@ class Code:
                         try:
                             if len(values) == 1:
                                 self.data.POST_var(name[1:], [type_[:-1], values[0]])
+                            if CheckTypeVariable(values).is_string():
+                                Error('ValueError', 1, self.lineCode, self.code, self.file, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
                             else:
                                 n = 0
                                 for i in values:
@@ -120,12 +113,12 @@ class Code:
                                         if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
                                             values[n] = self.data.GET_var().get(i[1:])[1]
                                         else:
-                                            print(ERROR('ValueError', f"'{i}' is not int or float", self.lineCode))
+                                            Error('ValueError', 1, self.lineCode, self.code, self.file)
                                     n += 1
                                 self.data.POST_var(name[1:], [type_[:-1], eval(" ".join(values))])
 
                         except:
-                            print(ERROR("ValueError", f"'{values}' cannot be an int type", self.lineCode))
+                            Error('ValueError', 1, self.lineCode, self.code, self.file, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
 
                     elif type_[:-1] == 'float':
                         try:
@@ -145,7 +138,7 @@ class Code:
                                 elif values[0] == 'false':
                                     self.data.POST_var(name[1:], [type_[:-1], 'false'])
                                 else:
-                                    print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
+                                    Error('ValueError', 1, self.lineCode, self.code, self.file, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
 
                             elif values[0] == "DO:" and values[2] in ['==', '>', '>=', '<', "<="]:
                                 if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):
@@ -153,7 +146,7 @@ class Code:
                                 else:
                                     self.data.POST_var(name[1:], [type_[:-1], 'false'])
                         except:
-                            print(ERROR("ValueError", f"'{values}' cannot be an bool type", self.lineCode))
+                            Error('ValueError', 1, self.lineCode, self.code, self.file, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
 
             # print value variable
             # case ['OUT:', name] if len(self.code) == 2:
@@ -175,6 +168,7 @@ class Code:
             #                             OPERATOR                                 #
             ########################################################################
             case ['OUT:', *ops]:
+                e = False
                 if CheckTypeVariable(ops).is_string():
                     print(" ".join(ops))
                 elif len(ops) == 1:
@@ -200,8 +194,7 @@ class Code:
                                     number[j] = float(self.data.GET_var().get(str(i[1:]))[1])
                                     j += 1
                             else:
-                                print(ERROR("CrachCodeError", f"Fatal error", self.lineCode))
-                                ERROR_CODE = True
+                                Error('FatalError', 0, self.lineCode, self.code, self.file)
 
                     try:
                         if not ERROR_CODE:
@@ -216,16 +209,17 @@ class Code:
                                     oper += 1
 
                             try:
-                                """
-                                    bug is it
-                                """
+
                                 result = eval(resultSTR)
                                 print('\033[34m' + str(result) + '\033[0m')
+
                             except ZeroDivisionError:
-                                print(ERROR("ZeroDivisionError", 'the number cannot be divided by 0', self.lineCode))
+                                e = True
+                                Error("ZeroDivisionError", 0, self.lineCode, self.code, self.file, CODE_variable_value=number)
+
                             except:
-                                print(ERROR("ValueError", 'problem in syntax do your operator', self.lineCode, 'Exp: 1 + 2 - 3 * 4 / 5'))
+                                Error(SyntaxError, 5, self.lineCode, self.code, self.file)
                     except:
-                        print(ERROR("ValueError", f"type '{str(self.data.GET_var().get(number[0][1:])[0])}' in {str(number[0])} is not 'int' or 'float'", self.lineCode))
+                        Error('ValueError', 1, self.lineCode, self.code, self.file, CODE_variable_value=number)
             case _:
-                print(ERROR("CommandError", f"{self.code} is not found !", self.lineCode, "'help' command for vew all command"))
+                Error('FatalError', 1, self.lineCode, self.code, self.file)
