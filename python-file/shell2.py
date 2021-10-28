@@ -1,23 +1,24 @@
 from basic2 import *
+import data
 
-lineCode = 0
+line = 0
 run = True
 
 print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [5.0]\033[90m")
 print('\n')
 
 while run:
-    lineCode += 1
 
-    txt = input(f"\033[90m[{lineCode}] \033[0m")
-    fileTxtStr = txt.split()
+    line += 1
+    txt = input(f"\033[90m[{line}] \033[0m")
+    code = txt.split()
 
-    if fileTxtStr[0] == "FILE" and fileTxtStr[2] == "RUN":
+    if code[0] == "FILE" and code[2] == "RUN":
 
         run = False
 
         # open file for pick code
-        file = open(str(fileTxtStr[1]), 'r')
+        file = open(str(code[1]), 'r')
         stock = file.readlines()
 
         # remove comment
@@ -33,12 +34,19 @@ while run:
         txt = [ele for ele in txt if ele.strip()]
 
         # execute Code
-        Code(txt, lineCode, True)
+        data.CODE = code
+        data.LINE = line
+        data.FILE = True
+
+        Code()
 
     # remove space and comment in console and execute Code
-    elif txt.replace(" ", "") == "":
-        pass
-    elif txt.split()[0] == '//' or txt[0] == "/" and txt[1] == '/':
+    elif txt.replace(" ", "") == "" or txt.split()[0] == '//' or txt[0] == "/" and txt[1] == '/':
         pass
     else:
-        Code(txt, lineCode)
+        # execute Code
+        data.CODE = code
+        data.LINE = line
+        data.FILE = False
+
+        Code()

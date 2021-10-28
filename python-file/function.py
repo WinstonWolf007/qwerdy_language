@@ -1,19 +1,15 @@
 from checkType import CheckTypeVariable
 from variable import Variable
-from data import Data
+import data
 from error import Error
 
 class Function:
 
-    def __init__(self, line, code, file):
-        self.data = Data()
-        self.line = line
-        self.code = code
-        self.file = file
-        self.VARIABLE_CLASS = Variable(self.data.GET_var(), self.line)
+    def __init__(self):
+        self.data = data.Data()
+        self.VARIABLE_CLASS = Variable(self.data.GET_var(), data.LINE)
 
     def out(self, ops):
-        e = False
         if CheckTypeVariable(ops).is_string():
             print(" ".join(ops))
         elif len(ops) == 1:
@@ -39,7 +35,7 @@ class Function:
                             number[j] = float(self.data.GET_var().get(str(i[1:]))[1])
                             j += 1
                     else:
-                        Error('FatalError', 0, self.line, self.code, self.file)
+                        Error('FatalError', 0, data.LINE, data.CODE, data.FILE)
 
             try:
                 for x in range(len(number) + len(operator)):
@@ -59,9 +55,9 @@ class Function:
 
                 except ZeroDivisionError:
                     e = True
-                    Error("ZeroDivisionError", 0, self.line, self.code, self.file, CODE_variable_value=number)
+                    Error(ZeroDivisionError, 0, CODE_variable_value=number)
 
                 except:
-                    Error(SyntaxError, 5, self.line, self.code, self.file)
+                    Error(SyntaxError, 5)
             except:
-                Error('ValueError', 1, self.line, self.code, self.file, CODE_variable_value=number)
+                Error(ValueError, 1, CODE_variable_value=number)
