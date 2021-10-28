@@ -18,7 +18,7 @@ class Data:
         self.file = FILE
 
     def GET_var(self, value=None):
-        if value  is not None:
+        if value is not None:
             return TT_VAR[value]
         return TT_VAR
 

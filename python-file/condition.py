@@ -1,5 +1,6 @@
 from error import Error
 from checkType import CheckTypeVariable
+import function
 
 class Condition:
     def __init__(self, TT_VAR, line, LETTERS):
@@ -38,7 +39,7 @@ class Condition:
                     elif name2_[0] == '"':
                         pass
                     elif name1_[0] != "$" or name2_[0] != "$":
-                        Error().create(SyntaxError, 0)
+                        Error(SyntaxError, 0)
 
         except: pass
 
@@ -58,7 +59,7 @@ class Condition:
             else:
                 for l in self.LETTERS:
                     if l == name2_[1]:
-                        Error().create(SyntaxError, 0)
+                        Error(SyntaxError, 0)
                         break
 
         except: pass
@@ -83,7 +84,7 @@ class Condition:
                 return False
 
         else:
-            Error().create(SyntaxError, 5)
+            Error(SyntaxError, 5)
 
     def bigCondition_if_elseIf_else(self, condition):
 
@@ -108,4 +109,4 @@ class Condition:
 
         for i in condition_dict:
             if self.smallCondition_do(condition_dict[i]['do'][0], condition_dict[i]['do'][1], condition_dict[i]['do'][2]):
-                print(f"Condition is true, execute function '{' '.join(condition_dict[i]['do'])}'")
+                function.Function(OUT_ops=condition_dict[i]['func'][1]).key_func.get('OUT:')

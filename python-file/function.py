@@ -5,9 +5,12 @@ from error import Error
 
 class Function:
 
-    def __init__(self):
+    def __init__(self, OUT_ops=None):
         self.data = data.Data()
         self.VARIABLE_CLASS = Variable(self.data.GET_var(), data.LINE)
+        self.key_func = {
+            'OUT:': self.out(OUT_ops)
+        }
 
     def out(self, ops):
         if CheckTypeVariable(ops).is_string():

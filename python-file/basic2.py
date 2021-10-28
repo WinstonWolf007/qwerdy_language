@@ -22,7 +22,6 @@ class Code:
         self.code = self.data.code.split() if isinstance(self.data.code, str) else self.data.code
         self.lineCode = self.data.line
         self.file = self.data.file
-
         self.LETTERS = self.data.LETTERS
         self.IS_FILE = self.data.IS_FILE
 
@@ -30,10 +29,7 @@ class Code:
         self.VARIABLE_CLASS = Variable(self.data.GET_var(), self.lineCode)
         self.CONDITION_CLASS = Condition(self.data.GET_var(), self.lineCode, self.LETTERS)
 
-        if self.file:
-            self.CODE_FILE()
-        else:
-            self.CODE_LANG()
+        self.CODE_FILE() if self.file else self.CODE_LANG()
 
     def CODE_FILE(self):
         code_stock = self.code
