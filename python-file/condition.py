@@ -37,10 +37,8 @@ class Condition:
                         pass
                     elif name2_[0] == '"':
                         pass
-                    elif name1_[0] != "$":
-                        print(ERROR("SyntaxError", f"it missing '$' the start variable '{name1_}'"))
-                    elif name2_[0] != "$":
-                        print(ERROR("SyntaxError", f"it missing '$' the start variable '{name2_}'"))
+                    elif name1_[0] != "$" or name2_[0] != "$":
+                        Error().create(SyntaxError, 0)
 
         except: pass
 
@@ -60,7 +58,7 @@ class Condition:
             else:
                 for l in self.LETTERS:
                     if l == name2_[1]:
-                        print(ERROR("SyntaxError", "it missing '$' the start variable"))
+                        Error().create(SyntaxError, 0)
                         break
 
         except: pass
@@ -85,5 +83,29 @@ class Condition:
                 return False
 
         else:
-            print(ERROR('SyntaxError', f"'{operator_}' is not exist", self.lineCode))
-            ERROR_CODE = True
+            Error().create(SyntaxError, 5)
+
+    def bigCondition_if_elseIf_else(self, condition):
+
+        idx = 0
+
+        condition_dict = {}
+
+        c = " ".join(condition)
+        c1 = c.replace(" ELSIF:", "|").replace(" ELSE:", "|").split("|")
+
+        for i in c1:
+            c3 = i.split(" THEN ")
+
+            syntax_dict = {
+                idx: {
+                    'do': c3[0].split(),
+                    'func': c3[1].split()
+                }
+            }
+            condition_dict.update(syntax_dict)
+            idx += 1
+
+        for i in condition_dict:
+            if self.smallCondition_do(condition_dict[i]['do'][0], condition_dict[i]['do'][1], condition_dict[i]['do'][2]):
+                print(f"Condition is true, execute function '{' '.join(condition_dict[i]['do'])}'")

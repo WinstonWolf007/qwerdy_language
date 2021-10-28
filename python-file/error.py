@@ -1,6 +1,6 @@
 class Error:
 
-    def __init__(self, error_type, index, line, code_line, file, CODE_variable_name_letter=None, CODE_variable_type=None, CODE_variable_name=None, CODE_variable_value=None):
+    def __init__(self, error_type='<?>Error', index=0, line='?', code_line='<code>', file='False', CODE_variable_name_letter=None, CODE_variable_type=None, CODE_variable_name=None, CODE_variable_value=None):
 
         self.CODE_variable_name_letter = CODE_variable_name_letter
         self.CODE_variable_type = CODE_variable_type
@@ -49,6 +49,10 @@ class Error:
             self.code_line += ";"
 
         print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{self.error_type}]: {self.error_detail}" + "\033[0m")
+        exit(2)
+
+    def create(self, error_types, idx):
+        print("\033[91m" + f"Traceback (most recent call last):\n  File 'None', line ?\n\n\t\n\n[{error_types}]: {self.error_list.get(error_types)[idx]}" + "\033[0m")
         exit(2)
 
 class CheckIfError:

@@ -1,4 +1,1 @@
-int: $a = 3;
-int: b = 10;
-int: $rep = $a + $b;
-OUT: $rep;
+IF: 1 == 1 THEN OUT: "a";
