@@ -1,12 +1,13 @@
 from error import Error
 from checkType import CheckTypeVariable
-import function
+from function import Function
 
 class Condition:
     def __init__(self, TT_VAR, line, LETTERS):
         self.TT_VAR = TT_VAR
         self.lineCode = line
         self.LETTERS = LETTERS
+        self.function = Function()
 
     def smallCondition_do(self, name1_, operator_, name2_):
 
@@ -109,4 +110,4 @@ class Condition:
 
         for i in condition_dict:
             if self.smallCondition_do(condition_dict[i]['do'][0], condition_dict[i]['do'][1], condition_dict[i]['do'][2]):
-                function.Function(OUT_ops=condition_dict[i]['func'][1]).key_func.get('OUT:')
+                print(condition_dict[i]['func'][1])

@@ -5,18 +5,13 @@ from error import Error
 
 class Function:
 
-    def __init__(self, OUT_ops=None):
+    def __init__(self):
         self.data = data.Data()
         self.VARIABLE_CLASS = Variable(self.data.GET_var(), data.LINE)
-        self.key_func = {
-            'OUT:': self.out(OUT_ops)
-        }
 
     def out(self, ops):
         if CheckTypeVariable(ops).is_string():
-            print(" ".join(ops))
-        elif len(ops) == 1:
-            self.VARIABLE_CLASS.displayValueVariable(ops[0])
+            print('\033[34m' + " ".join(ops) + '\033[0m')
         else:
             number = ops[0::2]
             operator = ops[1::2]
@@ -52,7 +47,6 @@ class Function:
                         oper += 1
 
                 try:
-
                     result = eval(resultSTR)
                     print('\033[34m' + str(result) + '\033[0m')
 

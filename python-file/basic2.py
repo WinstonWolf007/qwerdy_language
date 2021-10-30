@@ -17,6 +17,7 @@ class Code:
     def __init__(self):
         # data function
         self.data = Data()
+        self.function = Function()
 
         # attribute variable stock in data for variable in basic2.py
         self.code = self.data.code.split() if isinstance(self.data.code, str) else self.data.code
@@ -146,6 +147,6 @@ class Code:
             #                             OPERATOR                                 #
             ########################################################################
             case ['OUT:', *ops]:
-                Function().out(ops)
+                self.function.out(ops)
             case _:
                 Error('FatalError', 1, self.lineCode, self.code, self.file)
