@@ -217,6 +217,6 @@ DO: [*name] [*operator] [*name2] ?
 
 {SYNTAX - IF, ELSE, ELSIF}
 
-IF: $age > 17 ? OUT: "tu es majeur"
-ELSIF: $age < 18 ? OUT: "tu es mineur"
-ELSE: ? OUT: "error"
+IF: $age > 17 THEN OUT: "tu es majeur"
+ELSIF: $age < 18 THEN OUT: "tu es mineur"
+ELSE: THEN OUT: "error"
