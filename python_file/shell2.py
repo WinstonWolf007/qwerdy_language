@@ -13,7 +13,10 @@ while run:
     txt = input(f"\033[90m[{line}] \033[0m")
     code = txt.split()
 
-    if code[0] == "FILE" and code[2] == "RUN":
+    if txt.replace(" ", "") == "" or txt.split()[0] == '//' or txt[0] == "/" and txt[1] == '/':
+        pass
+
+    elif code[0] == "FILE" and code[2] == "RUN":
 
         run = False
 
@@ -41,8 +44,7 @@ while run:
         Code()
 
     # remove space and comment in console and execute Code
-    elif txt.replace(" ", "") == "" or txt.split()[0] == '//' or txt[0] == "/" and txt[1] == '/':
-        pass
+
     else:
         # execute Code
         data.CODE = code

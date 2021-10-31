@@ -108,6 +108,14 @@ class Condition:
             condition_dict.update(syntax_dict)
             idx += 1
 
+        print(condition_dict)
+
         for i in condition_dict:
             if self.smallCondition_do(condition_dict[i]['do'][0], condition_dict[i]['do'][1], condition_dict[i]['do'][2]):
-                print(condition_dict[i]['func'][1])
+                if condition_dict[i]['func'][0] == 'OUT:':
+                    self.function.out(condition_dict[i]['func'][1:])
+
+                elif condition_dict[i]['func'][0] in self.function.all_func_create:
+                    print('created function detected')
+
+

@@ -1,13 +1,11 @@
 #####################################
 # IMPORT
 #####################################
-from error import *
-from checkType import CheckTypeVariable
-from data import Data
-
-from variable import Variable
 from condition import Condition
+from data import Data
+import error
 from function import Function
+from variable import Variable
 
 ##########################################
 # MAIN CODE
@@ -15,9 +13,10 @@ from function import Function
 
 class Code:
     def __init__(self):
-        # data function
+        # function
         self.data = Data()
         self.function = Function()
+        self.error = error
 
         # attribute variable stock in data for variable in basic2.py
         self.code = self.data.code.split() if isinstance(self.data.code, str) else self.data.code
@@ -42,8 +41,8 @@ class Code:
 
     def CODE_LANG(self):
 
-        if not self.file and self.code[-1][-1] != ";":
-            Error(SyntaxError, 1)
+        if not self.file and self.code[-1][-1] != ";" and self.code[0] != 'FUNC:':
+            self.error.Error(SyntaxError, 1)
         else:
             self.code = " ".join(self.code).replace(";", '').split(" ")
 
@@ -76,7 +75,7 @@ class Code:
             case [name2, '=', *values2]:
 
                 if self.data.GET_var().get(name2[1:]) is None:
-                    Error(NameError, 0, CODE_variable_name=name2)
+                    self.error.Error(NameError, 0, CODE_variable_name=name2)
 
                 if self.data.GET_var().get(name2[1:])[0] == 'int' and len(values2) > 1:
                     v = "".join(values2)
@@ -90,13 +89,13 @@ class Code:
 
             # create variable
             case [type_, name, "=", *values]:
-                CheckIfError().createVariable(name, type_, values)
+                self.error.CheckIfError().createVariable(name, type_, values)
                 if type_[:-1] == 'int':
                     try:
                         if len(values) == 1:
                             self.data.POST_var(name[1:], [type_[:-1], values[0]])
-                        if CheckTypeVariable(values).is_string():
-                            Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                        if self.error.CheckTypeVariable(values).is_string():
+                            self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
                         else:
                             n = 0
                             for i in values:
@@ -104,12 +103,12 @@ class Code:
                                     if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
                                         values[n] = self.data.GET_var().get(i[1:])[1]
                                     else:
-                                        Error(ValueError, 1)
+                                        self.error.Error(ValueError, 1)
                                 n += 1
                             self.data.POST_var(name[1:], [type_[:-1], eval(" ".join(values))])
 
                     except:
-                        Error(ValueError, 1, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
+                        self.error.Error(ValueError, 1, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
 
                 elif type_[:-1] == 'float':
                     try:
@@ -129,7 +128,7 @@ class Code:
                             elif values[0] == 'false':
                                 self.data.POST_var(name[1:], [type_[:-1], 'false'])
                             else:
-                                Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                                self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
 
                         elif values[0] == "DO:" and values[2] in ['==', '>', '>=', '<', "<="]:
                             if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):
@@ -137,10 +136,10 @@ class Code:
                             else:
                                 self.data.POST_var(name[1:], [type_[:-1], 'false'])
                     except:
-                        Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                        self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
 
             # print type variable
-            case ['type:', name]:
+            case ['TYPE:', name]:
                 self.VARIABLE_CLASS.displayTypeVariable(name)
 
             ########################################################################
@@ -148,5 +147,14 @@ class Code:
             ########################################################################
             case ['OUT:', *ops]:
                 self.function.out(ops)
+
+            ########################################################################
+            #                             FUNCTION                                 #
+            ########################################################################
+
+            case ['FUNC:', name, *parameter]:
+                parameters = " ".join(parameter).replace('[', '').replace(']', '').split(',')
+                self.function.created_function(name, parameters)
+
             case _:
-                Error('FatalError', 1, self.lineCode, self.code, self.file)
+                self.error.Error('FatalError', 1)

@@ -1,5 +1,6 @@
 from data import Data
 
+
 class ChangeVariableForValue:
 
     def __init__(self, values: list):

@@ -1,10 +1,7 @@
-create function
+FUNC: $add [int: $a, int: $b]:
+    return $a + $b;
 
-FUNC: $calcul(int: $a, int: $b) {
-
-}
-
-
+$add
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 ~~~~~~~~~~~~~~~~~~FUNCTION LANGUAGE~~~~~~~~~~~~~~~~~~~~
 
@@ -21,10 +18,10 @@ OUT: $[*name]
 =======================================
 
 // vew variable type
-*type: $[name]
+*TYPE: $[name]
 *type display all type [int, float, bool, string]
 
->> type: $name
+>> TYPE: $name
 >> <typeof 'string'>
 
 
