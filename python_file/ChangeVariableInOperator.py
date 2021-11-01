@@ -11,8 +11,9 @@ class ChangeVariableForValue:
         j = 0
         for i in self.values:
             if i[0] == '$':
-                dataVar = self.data.GET_var(i)
-                self.values[j] = dataVar
+                typeVar, dataVar = self.data.GET_var(i[1:])
+                self.values[j] = str(dataVar)
                 j += 1
 
+        print(self.values)
         return self.values

@@ -1,6 +1,8 @@
 from error import Error
 from checkType import CheckTypeVariable
 from function import Function
+from ChangeVariableInOperator import ChangeVariableForValue
+
 
 class Condition:
     def __init__(self, TT_VAR, line, LETTERS):
@@ -65,7 +67,7 @@ class Condition:
 
         except: pass
 
-        if operator_ in ['==', '>', '>=', "<", "<="]:
+        if operator_ in ['==', '>', '>=', "<", "<=", "!="]:
             if operator_ == "==":
                 return True if name1_ == name2_ else False
 
@@ -80,6 +82,9 @@ class Condition:
 
             elif operator_ == '<=':
                 return True if name1_ <= name2_ else False
+
+            elif operator_ == "!=":
+                return True if name1_ != name2_ else False
 
             else:
                 return False
@@ -108,7 +113,7 @@ class Condition:
             condition_dict.update(syntax_dict)
             idx += 1
 
-        print(condition_dict)
+        ChangeVariableForValue(condition_dict[0]['do']).changeData()
 
         for i in condition_dict:
             if self.smallCondition_do(condition_dict[i]['do'][0], condition_dict[i]['do'][1], condition_dict[i]['do'][2]):

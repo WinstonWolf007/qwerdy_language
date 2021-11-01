@@ -37,13 +37,11 @@ while run:
         txt = [ele for ele in txt if ele.strip()]
 
         # execute Code
-        data.CODE = code
+        data.CODE = txt
         data.LINE = line
         data.FILE = True
 
         Code()
-
-    # remove space and comment in console and execute Code
 
     else:
         # execute Code

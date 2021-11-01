@@ -17,7 +17,7 @@ class Error:
         self.code_line = " ".join(data.CODE)
 
         self.error_list = {
-            'SyntaxError': [
+            SyntaxError: [
                 f"It missing '$' the start of the variable name '{self.CODE_variable_name}'",
                 "It missing ';' the end code",
                 f"It missing ':' the end variable type '{self.CODE_variable_type}'",
@@ -25,17 +25,17 @@ class Error:
                 f"It missing '\"\"' for 'string' type of the variable value '{self.CODE_variable_value}'",
                 "problem in your operator"
             ],
-            'ValueError': [
+            ValueError: [
                 f"'{self.CODE_variable_value}' cannot be this value with the type '{self.CODE_variable_type}'",
                 f"'{self.CODE_variable_value}' is not int or float",
             ],
-            'TypeError': [
+            TypeError: [
                 f"'{self.CODE_variable_type}' is not exist in (int, float, string, bool)"
             ],
-            'ZeroDivisionError': [
+            ZeroDivisionError: [
                 f"the number '{self.CODE_variable_value}' cannot be divided by 0"
             ],
-            'NameError': [
+            NameError: [
                 f"Variable '{self.CODE_variable_name}' is not exist !"
             ],
             'FatalError': [
@@ -49,7 +49,7 @@ class Error:
         if not self.error_type == 'SyntaxError' and not self.index == 1:
             self.code_line += ";"
 
-        print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{self.error_type}]: {self.error_detail}" + "\033[0m")
+        print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{str(self.error_type)[8:-2]}]: {self.error_detail}" + "\033[0m")
         exit(2)
 
 class CheckIfError:

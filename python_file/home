@@ -1,1 +1,3 @@
-IF: 1 == 1 THEN OUT: "a";
+int: $a = 4;
+
+IF: $a == 3 THEN OUT: "a is less than b";

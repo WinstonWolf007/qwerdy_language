@@ -11,12 +11,12 @@ class Variable:
         try:
             print('\033[34m' + str(self.TT_VAR.get(name[1:])[1]) + '\033[0m')
         except:
-            self.error.Error("NameError", 0)
+            self.error.Error(NameError, 0)
 
     def displayTypeVariable(self, name):
         ERROR_CODE = False
         if name[0] != "$":
-            self.error.Error("SyntaxError", 0)
+            self.error.Error(SyntaxError, 0)
             ERROR_CODE = True
 
         if not ERROR_CODE:
