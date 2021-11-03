@@ -1,3 +1,8 @@
-int: $a = 4;
+IMPORT azerdyDB;
 
-IF: $a == 3 THEN OUT: "a is less than b";
+mod: $data = azerdyDB("CREATE data-base NAME salut")
+
+$data("CREATE table NAME user VALUE id, name years")
+
+$data("POST user VALUE 1, ubert, 14")
+$data("GET user VALUE id=2")

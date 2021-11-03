@@ -4,7 +4,7 @@ import data
 line = 0
 run = True
 
-print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [5.0]\033[90m")
+print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [6.1]\033[90m")
 print('\n')
 
 while run:
