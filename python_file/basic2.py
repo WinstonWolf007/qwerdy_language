@@ -78,11 +78,16 @@ class Code:
                     self.error.Error(NameError, 0, CODE_variable_name=name2)
 
                 if self.data.GET_var().get(name2[1:])[0] == 'int' and len(values2) > 1:
-                    v = "".join(values2)
-                    result = eval(v)
-                    self.data.POST_var(name2[1:], ['int', int(result)])
-                    print(self.data.GET_var(name2[1:]))
-                    print(self.data.GET_var())
+                     n = 0
+                     for i in values2:
+                        if self.data.GET_var().get(i[1:]) is not None:
+                            if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
+                                values2[n] = str(self.data.GET_var().get(i[1:])[1])
+                            else:
+                                self.error.Error(ValueError, 1)
+                        n += 1
+
+                     self.data.POST_var(name2[1:], ['int', eval(" ".join(values2))])
 
                 elif self.data.GET_var().get(name2[1:]):
                     self.data.POST_var(name2[1:], [self.data.GET_var().get(name2[1:])[0], " ".join(values2)])
@@ -101,13 +106,14 @@ class Code:
                             for i in values:
                                 if self.data.GET_var().get(i[1:]) is not None:
                                     if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
-                                        values[n] = self.data.GET_var().get(i[1:])[1]
+                                        values[n] = str(self.data.GET_var().get(i[1:])[1])
                                     else:
                                         self.error.Error(ValueError, 1)
                                 n += 1
                             self.data.POST_var(name[1:], [type_[:-1], eval(" ".join(values))])
 
                     except:
+                        print(values)
                         self.error.Error(ValueError, 1, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
 
                 elif type_[:-1] == 'float':

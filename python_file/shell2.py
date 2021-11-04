@@ -12,7 +12,7 @@ while run:
     line += 1
     txt = input(f"\033[90m[{line}] \033[0m")
     code = txt.split()
-
+    print(code)
     if txt.replace(" ", "") == "" or txt.split()[0] == '//' or txt[0] == "/" and txt[1] == '/':
         pass
 

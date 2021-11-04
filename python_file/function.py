@@ -2,6 +2,7 @@ from checkType import CheckTypeVariable
 from variable import Variable
 import data
 from error import Error
+from ChangeVariableInOperator import ChangeVariableForValue
 
 class Function:
 
@@ -11,7 +12,8 @@ class Function:
         self.all_func_create = []
 
     def out(self, ops):
-        if CheckTypeVariable(ops).is_string():
+        ChangeVariableForValue(ops).changeData()
+        if CheckTypeVariable(ops).is_string() or CheckTypeVariable(ops).is_bool():
             print('\033[34m' + " ".join(ops) + '\033[0m')
         else:
             number = ops[0::2]

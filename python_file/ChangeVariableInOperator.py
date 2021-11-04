@@ -15,5 +15,4 @@ class ChangeVariableForValue:
                 self.values[j] = str(dataVar)
                 j += 1
 
-        print(self.values)
         return self.values
