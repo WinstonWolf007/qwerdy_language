@@ -19,9 +19,7 @@ class Data:
         self.file = FILE
 
     def GET_var(self, value=None):
-        if value is not None:
-            return TT_VAR[value]
-        return TT_VAR
+        return TT_VAR[value] if value is not None else TT_VAR
 
     def POST_var(self, key, value):
         TT_VAR[key] = value
