@@ -34,15 +34,15 @@ class Condition:
     def bigCondition_if_elseIf_else(self, condition):
 
         idx = 0
-
         condition_dict = {}
 
         c = " ".join(condition)
-        c1 = c.replace(" ELSIF:", "|").replace(" ELSE:", "|").split("|")
-
+        c1 = c.replace(" ELSIF: ", "|").replace(" ELSE: ", "|").split("|")
+        print(c1)
+        exit()
         for i in c1:
             c3 = i.split(" THEN ")
-
+            print(c3)
             syntax_dict = {
                 idx: {
                     'do': c3[0].split(),
