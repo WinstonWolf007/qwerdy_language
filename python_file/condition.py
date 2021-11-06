@@ -37,9 +37,7 @@ class Condition:
                     pass
 
                 else:
-                    if name1_[0] == '"':
-                        pass
-                    elif name2_[0] == '"':
+                    if name1_[0] == '"' or name2_[0] == '"':
                         pass
                     elif name1_[0] != "$" or name2_[0] != "$":
                         Error(SyntaxError, 0)
@@ -67,30 +65,16 @@ class Condition:
 
         except: pass
 
-        if operator_ in ['==', '>', '>=', "<", "<=", "!="]:
-            if operator_ == "==":
-                return True if name1_ == name2_ else False
-
-            elif operator_ == ">":
-                return True if name1_ > name2_ else False
-
-            elif operator_ == ">=":
-                return True if name1_ >= name2_ else False
-
-            elif operator_ == "<":
-                return True if name1_ < name2_ else False
-
-            elif operator_ == '<=':
-                return True if name1_ <= name2_ else False
-
-            elif operator_ == "!=":
-                return True if name1_ != name2_ else False
-
-            else:
-                return False
-
-        else:
-            Error(SyntaxError, 5)
+        # get True or False according to operator
+        ops = {
+            '==': True if name1_ == name2_ else False,
+            '>': True if name1_ > name2_ else False,
+            '>=': True if name1_ >= name2_ else False,
+            '<': True if name1_ < name2_ else False,
+            "<=": True if name1_ <= name2_ else False,
+            '!=': True if name1_ != name2_ else False
+        }
+        return ops.get(operator_) if ops.get(operator_) is not None else Error(SyntaxError, 5)
 
     def bigCondition_if_elseIf_else(self, condition):
 
