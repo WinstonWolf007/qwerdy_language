@@ -1,5 +1,4 @@
 from checkType import CheckTypeVariable
-from variable import Variable
 import data
 from error import Error
 from ChangeVariableInOperator import ChangeVariableForValue
@@ -8,7 +7,6 @@ class Function:
 
     def __init__(self):
         self.data = data.Data()
-        self.VARIABLE_CLASS = Variable(self.data.GET_var(), data.LINE)
         self.all_func_create = []
 
     def out(self, ops):

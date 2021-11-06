@@ -1,6 +1,7 @@
 import string
 
 TT_VAR = {}
+TT_FUNC = {}
 
 CODE = ''
 LINE = 0

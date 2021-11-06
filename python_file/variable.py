@@ -1,10 +1,10 @@
 import error
-from data import Data
+from data import *
 
 class Variable:
-    def __init__(self, TT_VAR, line):
+    def __init__(self):
         self.TT_VAR = TT_VAR
-        self.lineCode = line
+        self.lineCode = LINE
         self.error = error
 
     def displayValueVariable(self, name):
@@ -14,12 +14,9 @@ class Variable:
             self.error.Error(NameError, 0)
 
     def displayTypeVariable(self, name):
-        ERROR_CODE = False
         if name[0] != "$":
             self.error.Error(SyntaxError, 0)
-            ERROR_CODE = True
-
-        if not ERROR_CODE:
+        else:
             try:
                 print('\033[34m' + f"<typeof '{str(self.TT_VAR.get(name[1:])[0])}'>" + '\033[0m')
             except:

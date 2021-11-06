@@ -19,7 +19,7 @@ class CheckTypeVariable:
             return False
 
     def is_string(self):
-        return True if self.value_variable[0][0] == '"' and self.value_variable[-1][-1] else False
+        return True if self.value_variable[0][0] == '"' and self.value_variable[-1][-1] == '"' else False
 
     def is_bool(self):
         return True if self.value_variable[0] == "true" or self.value_variable[0] == "false" else False

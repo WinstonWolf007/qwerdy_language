@@ -36,7 +36,8 @@ class Error:
                 f"the number '{self.CODE_variable_value}' cannot be divided by 0"
             ],
             NameError: [
-                f"Variable '{self.CODE_variable_name}' is not exist !"
+                f"Variable '{self.CODE_variable_name}' is not exist !",
+                f"Function '{self.CODE_variable_name}' is not exist !"
             ],
             'FatalError': [
                 'error not found, fatal error',
@@ -50,7 +51,7 @@ class Error:
             self.code_line += ";"
 
         print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{str(self.error_type)[8:-2]}]: {self.error_detail}" + "\033[0m")
-        exit(2)
+        exit()
 
 class CheckIfError:
 

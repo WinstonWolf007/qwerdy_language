@@ -26,14 +26,13 @@ class Code:
         self.IS_FILE = self.data.IS_FILE
 
         # function in other file
-        self.VARIABLE_CLASS = Variable(self.data.GET_var(), self.lineCode)
-        self.CONDITION_CLASS = Condition(self.data.GET_var(), self.lineCode, self.LETTERS)
+        self.VARIABLE_CLASS = Variable()
+        self.CONDITION_CLASS = Condition()
 
         self.CODE_FILE() if self.file else self.CODE_LANG()
 
     def CODE_FILE(self):
         code_stock = self.code
-
         for i in code_stock:
             self.code = i.split()
             self.CODE_LANG()
@@ -49,7 +48,7 @@ class Code:
         match self.code:
 
             # help command
-            case ["help"]:
+            case ["HELP"]:
                 print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
 
             ########################################################################
@@ -60,8 +59,7 @@ class Code:
             case ['DO:', name1, operator, name2, '?']:
                 if self.CONDITION_CLASS.smallCondition_do(name1, operator, name2):
                     print('\033[34m' + "true" + '\033[0m')
-
-                elif not self.CONDITION_CLASS.smallCondition_do(name1, operator, name2):
+                else:
                     print('\033[34m' + "false" + '\033[0m')
 
             case ["IF:", *opr]:
@@ -129,14 +127,12 @@ class Code:
                 elif type_[:-1] == 'bool':
                     try:
                         if len(values) == 1:
-                            if values[0] == 'true':
-                                self.data.POST_var(name[1:], [type_[:-1], 'true'])
-                            elif values[0] == 'false':
-                                self.data.POST_var(name[1:], [type_[:-1], 'false'])
+                            if values[0] in ['true', 'false']:
+                                self.data.POST_var(name[1:], [type_[:-1], values])
                             else:
                                 self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
 
-                        elif values[0] == "DO:" and values[2] in ['==', '>', '>=', '<', "<="]:
+                        elif values[0] == "DO:":
                             if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):
                                 self.data.POST_var(name[1:], [type_[:-1], 'true'])
                             else:
@@ -163,4 +159,4 @@ class Code:
                 self.function.created_function(name, parameters)
 
             case _:
-                self.error.Error('FatalError', 1)
+                self.error.Error(NameError, 2)

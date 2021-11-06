@@ -13,6 +13,6 @@ class ChangeVariableForValue:
             if i[0] == '$':
                 typeVar, dataVar = self.data.GET_var(i[1:])
                 self.values[j] = str(dataVar)
-                j += 1
+            j += 1
 
         return self.values
