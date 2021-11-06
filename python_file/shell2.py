@@ -1,6 +1,7 @@
 from basic2 import *
 import data
 
+
 line = 0
 run = True
 

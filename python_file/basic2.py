@@ -2,7 +2,7 @@
 # IMPORT
 #####################################
 from condition import Condition
-from data import Data
+from data import *
 import error
 from function import Function
 from variable import Variable
@@ -149,6 +149,19 @@ class Code:
             ########################################################################
             case ['OUT:', *ops]:
                 self.function.out(ops)
+
+            case ['EXE:', nameFunc]:
+                if TT_FUNC.get(nameFunc[1:]) is not None:
+                    # for function
+                    line2 = 0
+                    for codeEl in TT_FUNC.get(nameFunc[1:]):
+                        line2 += 1
+                        CODE = codeEl
+                        LINE = line2
+                        FILE = False
+                        Code()
+                else:
+                    error.Error(NameError, 1)
 
             ########################################################################
             #                             FUNCTION                                 #

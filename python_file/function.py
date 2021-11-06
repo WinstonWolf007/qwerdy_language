@@ -1,12 +1,12 @@
 from checkType import CheckTypeVariable
-import data
+from data import *
 from error import Error
 from ChangeVariableInOperator import ChangeVariableForValue
 
 class Function:
 
     def __init__(self):
-        self.data = data.Data()
+        self.data = Data()
         self.all_func_create = []
 
     def out(self, ops):
@@ -34,7 +34,7 @@ class Function:
                             number[j] = float(self.data.GET_var().get(str(i[1:]))[1])
                             j += 1
                     else:
-                        Error('FatalError', 0, data.LINE, data.CODE, data.FILE)
+                        Error('FatalError', 0, LINE, CODE, FILE)
 
             try:
                 for x in range(len(number) + len(operator)):
@@ -71,4 +71,4 @@ class Function:
             if code == 'END;':
                 run = False
 
-        print(all_code)
+                TT_FUNC[name[1:]] = all_code
