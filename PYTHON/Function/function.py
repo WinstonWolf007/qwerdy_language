@@ -1,7 +1,7 @@
-from checkType import CheckTypeVariable
+from PYTHON.System.checkType import CheckTypeVariable
 from data import *
 from error import Error
-from ChangeVariableInOperator import ChangeVariableForValue
+from PYTHON.System.ChangeVariableInOperator import ChangeVariableForValue
 
 class Function:
 

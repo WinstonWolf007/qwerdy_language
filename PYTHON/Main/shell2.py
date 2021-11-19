@@ -1,4 +1,4 @@
-from basic2 import *
+from PYTHON.Main.basic2 import *
 import data
 
 

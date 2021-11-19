@@ -7,6 +7,7 @@ import error
 from function import Function
 from variable import Variable
 
+
 ##########################################
 # MAIN CODE
 ##########################################
@@ -45,6 +46,13 @@ class Code:
         else:
             self.code = " ".join(self.code).replace(";", '').split(" ")
 
+        for el in self.data.code:
+            if el in func.all_func_syntax:
+                func.createFunc(func.all_func_syntax[0], 'out')
+                break
+        else:
+            print(f"\033[91mError Find... [{func.code[0]}] != [{func.all_func_syntax}]\033[0m")
+
         match self.code:
 
             # help command
@@ -76,8 +84,8 @@ class Code:
                     self.error.Error(NameError, 0, CODE_variable_name=name2)
 
                 if self.data.GET_var().get(name2[1:])[0] == 'int' and len(values2) > 1:
-                     n = 0
-                     for i in values2:
+                    n = 0
+                    for i in values2:
                         if self.data.GET_var().get(i[1:]) is not None:
                             if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
                                 values2[n] = str(self.data.GET_var().get(i[1:])[1])
@@ -85,7 +93,7 @@ class Code:
                                 self.error.Error(ValueError, 1)
                         n += 1
 
-                     self.data.POST_var(name2[1:], ['int', eval(" ".join(values2))])
+                    self.data.POST_var(name2[1:], ['int', eval(" ".join(values2))])
 
                 elif self.data.GET_var().get(name2[1:]):
                     self.data.POST_var(name2[1:], [self.data.GET_var().get(name2[1:])[0], " ".join(values2)])
@@ -98,7 +106,8 @@ class Code:
                         if len(values) == 1:
                             self.data.POST_var(name[1:], [type_[:-1], values[0]])
                         if self.error.CheckTypeVariable(values).is_string():
-                            self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                            self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values),
+                                             CODE_variable_type=type_)
                         else:
                             n = 0
                             for i in values:
@@ -130,7 +139,8 @@ class Code:
                             if values[0] in ['true', 'false']:
                                 self.data.POST_var(name[1:], [type_[:-1], values])
                             else:
-                                self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                                self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values),
+                                                 CODE_variable_type=type_)
 
                         elif values[0] == "DO:":
                             if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):

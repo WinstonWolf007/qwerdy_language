@@ -1,5 +1,5 @@
 import data
-from checkType import CheckTypeVariable
+from PYTHON.System.checkType import CheckTypeVariable
 
 class Error:
 
