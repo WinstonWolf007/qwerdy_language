@@ -1,6 +1,9 @@
+#####################################
+# IMPORT
+#####################################
 from data import Data
 
-
+# class 'ChangeVariableForValue' is used for change the variable value -> ($a = 3)
 class ChangeVariableForValue:
 
     def __init__(self, values: list):

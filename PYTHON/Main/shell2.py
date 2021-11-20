@@ -1,15 +1,22 @@
+#####################################
+# IMPORT
+#####################################
 from PYTHON.Main.basic2 import *
-import data
+import PYTHON.System.data as data
 
-
+#####################################
+# DEFAULT VALUE
+#####################################
 line = 0
 run = True
+print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [6.1]\033[90m\n")
 
-print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [6.1]\033[90m")
-print('\n')
-
+#####################################
+# COMMAND LINE
+#####################################
 while run:
 
+    # create/update value
     line += 1
     txt = input(f"\033[90m[{line}] \033[0m")
     code = txt.split()
@@ -38,14 +45,14 @@ while run:
         txt = lineCodeFile.split(';')
         txt = [ele for ele in txt if ele.strip()]
 
-        # execute Code
+        # execute the code if is in the file
         data.CODE = txt
         data.LINE = line
         data.FILE = True
         Code()
 
     else:
-        # execute Code
+        # execute the code if is not in the file
         data.CODE = code
         data.LINE = line
         data.FILE = False

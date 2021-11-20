@@ -1,6 +1,11 @@
-import error
-from data import *
+#####################################
+# IMPORT
+#####################################
+import PYTHON.System.error as error
+from PYTHON.System.data import *
 
+
+# class 'Variable' is used display type, value the variables
 class Variable:
     def __init__(self):
         self.TT_VAR = TT_VAR

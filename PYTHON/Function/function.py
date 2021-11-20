@@ -1,14 +1,19 @@
+#####################################
+# IMPORT
+#####################################
 from PYTHON.System.checkType import CheckTypeVariable
-from data import *
-from error import Error
-from PYTHON.System.ChangeVariableInOperator import ChangeVariableForValue
+from PYTHON.System.data import *
+from PYTHON.System.error import Error
+from PYTHON.System.changeVariableInOperator import ChangeVariableForValue
 
+# class 'Function' is used to store different functions -> (out, type)
 class Function:
 
     def __init__(self):
         self.data = Data()
         self.all_func_create = []
 
+    # the out function is used for display in console
     def out(self, ops):
         ChangeVariableForValue(ops).changeData()
         if CheckTypeVariable(ops).is_string() or CheckTypeVariable(ops).is_bool():
@@ -60,6 +65,7 @@ class Function:
             except:
                 Error(ValueError, 1, CODE_variable_value=number)
 
+    # the create function is used for create the function in 'qwerdy' language
     def created_function(self, name, parameter: list):
         run = True
         all_code = []
