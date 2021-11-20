@@ -1,12 +1,11 @@
-**Création du langage de programmation 100% python**
+**Creation of the 100% python programming language**
 
-Nom: Qwerdy
-Utilisation: sert un peut à rien :(
+**Characteristic**
+    * Name: Qwerdy
+    * Use: not use :[
+    * Version: ~6
+    * Contributor: @WinstonWolf007
+    * Other: there will be another version in C language
 
-Quoi de neuf pour plus tard ?:
-
-    * Création d'une base de données pour ce langage
-    * Faire des boucle, conditions, fonction
-    * Convertir ce code en code C pour plus de rapidité
-    * ...
-
+**What news ?**
+    * not for now
