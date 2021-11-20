@@ -2,7 +2,6 @@
 # IMPORT
 #####################################
 import string
-import PYTHON.Function.function as function
 
 #####################################
 # Main stock var -> (variable, function, number line)
@@ -15,20 +14,15 @@ FILE = ''
 LETTERS = string.ascii_letters + "_"
 IS_FILE = False
 
+
 # class 'Data' is used that stock all value, type, key in the code
 class Data:
-    def __init__(self, *param):
+    def __init__(self):
         self.LETTERS = LETTERS
         self.IS_FILE = IS_FILE
         self.code = CODE
         self.line = LINE
         self.file = FILE
-        self.all_func = {
-            'out': function.Function().out(param)
-        }
-        self.all_func_syntax = [
-            'OUT:', 'TYPE:', 'VAR:'
-        ]
 
     # return value this variable
     def GET_var(self, value=None):

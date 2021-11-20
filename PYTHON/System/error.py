@@ -1,7 +1,7 @@
 #####################################
 # IMPORT
 #####################################
-import data
+import PYTHON.System.data as data
 from PYTHON.System.checkType import CheckTypeVariable
 
 # class 'Error' is used create and display the error in the console

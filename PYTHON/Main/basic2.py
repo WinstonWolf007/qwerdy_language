@@ -1,11 +1,11 @@
 #####################################
 # IMPORT
 #####################################
-from PYTHON.Function.condition import Condition
+# from PYTHON.Function.condition import Condition
 from PYTHON.System.data import *
 import PYTHON.System.error as error
-from PYTHON.Function.function import Function
-from PYTHON.Function.variable import Variable
+# from PYTHON.Function.function import Function
+# from PYTHON.Function.variable import Variable
 from PYTHON.System.executeFunc import Execute
 
 
@@ -17,7 +17,7 @@ class Code:
     def __init__(self):
         # function initialization
         self.data = Data()
-        self.function = Function()
+        # self.function = Function()
         self.error = error
         self.execute = Execute()
 
@@ -29,8 +29,8 @@ class Code:
         self.IS_FILE = self.data.IS_FILE
 
         # function in other file
-        self.VARIABLE_CLASS = Variable()
-        self.CONDITION_CLASS = Condition()
+        # self.VARIABLE_CLASS = Variable()
+        # self.CONDITION_CLASS = Condition()
         self.CODE_FILE() if self.file else self.CODE_LANG()
 
     def CODE_FILE(self):
@@ -50,7 +50,7 @@ class Code:
 
         # execute different function in code
         for el in self.data.code:
-            if el in self.data.all_func_syntax:
+            if el in self.execute.all_func_syntax:
                 self.execute.exe(0, 'out')
                 break
         else:
