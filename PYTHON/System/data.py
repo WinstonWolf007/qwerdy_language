@@ -26,7 +26,9 @@ class Data:
         self.all_func = {
             'out': function.Function().out(param)
         }
-        self.all_func_syntax = []
+        self.all_func_syntax = [
+            'OUT:', 'TYPE:', 'VAR:'
+        ]
 
     # return value this variable
     def GET_var(self, value=None):
@@ -35,8 +37,3 @@ class Data:
     # update dict 'TT_VAR' for change, create variable
     def POST_var(self, key, value):
         TT_VAR[key] = value
-
-    # create function syntax for command line
-    def createFunc(self, idx_syntax, func, *args):
-        if self.code[0] == self.all_func_syntax[idx_syntax]:
-            self.all_func.get(func)()
