@@ -1,0 +1,48 @@
+self.error.CheckIfError().createVariable(name, type_, values)
+                if type_[:-1] == 'int':
+                    try:
+                        if len(values) == 1:
+                            self.data.POST_var(name[1:], [type_[:-1], values[0]])
+                        if self.error.CheckTypeVariable(values).is_string():
+                            self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+                        else:
+                            n = 0
+                            for i in values:
+                                if self.data.GET_var().get(i[1:]) is not None:
+                                    if self.data.GET_var().get(i[1:])[0] in ['int', 'float']:
+                                        values[n] = self.data.GET_var().get(i[1:])[1]
+                                    else:
+                                        self.error.Error(ValueError, 1)
+                                n += 1
+                            self.data.POST_var(name[1:], [type_[:-1], eval(" ".join(values))])
+
+                    except:
+                        self.error.Error(ValueError, 1, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
+
+                elif type_[:-1] == 'float':
+                    try:
+                        self.data.POST_var(name[1:], [type_[:-1], float(values[0])])
+                    except:
+                        pass
+
+                elif type_[:-1] == 'string':
+                    if values[0][0] == '"' and values[-1][-1] == '"':
+                        self.data.POST_var(name[1:], [type_[:-1], " ".join(values)])
+
+                elif type_[:-1] == 'bool':
+                    try:
+                        if len(values) == 1:
+                            if values[0] == 'true':
+                                self.data.POST_var(name[1:], [type_[:-1], 'true'])
+                            elif values[0] == 'false':
+                                self.data.POST_var(name[1:], [type_[:-1], 'false'])
+                            else:
+                                self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)
+
+                        elif values[0] == "DO:" and values[2] in ['==', '>', '>=', '<', "<="]:
+                            if self.CONDITION_CLASS.smallCondition_do(values[1], values[2], values[3]):
+                                self.data.POST_var(name[1:], [type_[:-1], 'true'])
+                            else:
+                                self.data.POST_var(name[1:], [type_[:-1], 'false'])
+                    except:
+                        self.error.Error(ValueError, 1, CODE_variable_value=" ".join(values), CODE_variable_type=type_)

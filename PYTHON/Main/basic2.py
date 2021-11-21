@@ -50,6 +50,7 @@ class Code:
                 Execute(self.code[1:]).exe(0, 'out')
                 Execute(self.code[1:]).exe(1, 'help')
                 Execute(self.code[1:]).exe(2, 'var')
+                Execute(self.code[1:]).exe(3, 'do')
                 break
         else:
             self.error.Error(NameError, 1, CODE_variable_name=self.data.code[0])
@@ -62,22 +63,7 @@ class Code:
 
 """
 
-"""match self.code:
-
-            # help command
-            case ["HELP"]:
-                print('\033[34m' + "Read 'syntax.txt', file for vew all information" + '\033[0m')
-
-            ########################################################################
-            #                            CONDITION                                 #
-            ########################################################################
-
-            # small condition
-            case ['DO:', name1, operator, name2, '?']:
-                if self.CONDITION_CLASS.smallCondition_do(name1, operator, name2):
-                    print('\033[34m' + "true" + '\033[0m')
-                else:
-                    print('\033[34m' + "false" + '\033[0m')
+"""
 
             case ["IF:", *opr]:
                 self.CONDITION_CLASS.bigCondition_if_elseIf_else(opr)

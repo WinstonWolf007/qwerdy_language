@@ -3,6 +3,8 @@
 #####################################
 import PYTHON.System.data as data
 from PYTHON.Function.function import Function
+from PYTHON.Function.condition import Condition
+
 
 class Execute:
     def __init__(self, *args):
@@ -10,12 +12,14 @@ class Execute:
         self.all_func = {
             'out': Function().out,
             'help': Function().help,
-            'var': Function().var
+            'var': Function().var,
+            'do': Condition().do
         }
         self.all_func_syntax = [
             'OUT:',
             'HELP:',
-            'VAR:'
+            'VAR:',
+            'DO:'
         ]
 
     def exe(self, idx, funcName):
