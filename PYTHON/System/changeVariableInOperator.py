@@ -1,13 +1,13 @@
 #####################################
 # IMPORT
 #####################################
-from data import Data
+import PYTHON.System.data as data
 
 # class 'ChangeVariableForValue' is used for change the variable value -> ($a = 3)
 class ChangeVariableForValue:
 
     def __init__(self, values: list):
-        self.data = Data()
+        self.data = data.Data()
         self.values = values
 
     def changeData(self):

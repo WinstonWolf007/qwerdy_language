@@ -4,6 +4,7 @@
 import PYTHON.System.data as data
 from PYTHON.System.checkType import CheckTypeVariable
 
+
 # class 'Error' is used create and display the error in the console
 class Error:
     def __init__(self, error_type, index, CODE_variable_name_letter=None, CODE_variable_type=None, CODE_variable_name=None, CODE_variable_value=None):

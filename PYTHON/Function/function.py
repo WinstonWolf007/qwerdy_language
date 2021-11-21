@@ -2,20 +2,25 @@
 # IMPORT
 #####################################
 from PYTHON.System.checkType import CheckTypeVariable
-from PYTHON.System.data import *
+import PYTHON.System.data as data
 from PYTHON.System.error import Error
 from PYTHON.System.changeVariableInOperator import ChangeVariableForValue
+
 
 # class 'Function' is used to store different functions -> (out, type)
 class Function:
 
     def __init__(self):
-        self.data = Data()
+        self.data = data.Data()
         self.all_func_create = []
+
+    def help(self, ops):
+        print('l have no help for you :(')
 
     # the out function is used for display in console
     def out(self, ops):
         ChangeVariableForValue(ops).changeData()
+
         if CheckTypeVariable(ops).is_string() or CheckTypeVariable(ops).is_bool():
             print('\033[34m' + " ".join(ops) + '\033[0m')
         else:
@@ -39,7 +44,7 @@ class Function:
                             number[j] = float(self.data.GET_var().get(str(i[1:]))[1])
                             j += 1
                     else:
-                        Error('FatalError', 0, LINE, CODE, FILE)
+                        Error('FatalError', 0, data.LINE, data.CODE, data.FILE)
 
             try:
                 for x in range(len(number) + len(operator)):
@@ -65,8 +70,14 @@ class Function:
             except:
                 Error(ValueError, 1, CODE_variable_value=number)
 
+    def var(self, ops):
+        name = ops[0]
+        equal = ops[1]
+        value = ops[2]
+        print(f'{name}\n{equal}\n{value}')
+
     # the create function is used for create the function in 'qwerdy' language
-    def created_function(self, name, parameter: list):
+    """def created_function(self, name, parameter: list):
         run = True
         all_code = []
 
@@ -77,4 +88,4 @@ class Function:
             if code == 'END;':
                 run = False
 
-                TT_FUNC[name[1:]] = all_code
+                data.TT_FUNC[name[1:]] = all_code"""

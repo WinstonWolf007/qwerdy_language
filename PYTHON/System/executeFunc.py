@@ -1,29 +1,25 @@
 #####################################
 # IMPORT
 #####################################
-import data
-data_ = data.Data()
-data.CODE = input('>').split()
-
+import PYTHON.System.data as data
+from PYTHON.Function.function import Function
 
 class Execute:
     def __init__(self, *args):
         self.args = args
         self.all_func = {
-            'out': self.out
+            'out': Function().out,
+            'help': Function().help,
+            'var': Function().var
         }
         self.all_func_syntax = [
-            'OUT:'
+            'OUT:',
+            'HELP:',
+            'VAR:'
         ]
 
     def exe(self, idx, funcName):
-        if data.Data().code[0] == self.all_func_syntax[idx]:
-            self.all_func.get(funcName)(self.args)
-
-    def out(self, *args):
-        print(args[0][0])
-
-
-exe = Execute(data.CODE[1:])
-
-exe.exe(0, 'out')
+        if data.CODE == "":
+            return
+        if data.CODE[0] == self.all_func_syntax[idx]:
+            self.all_func.get(funcName)(self.args[0])

@@ -1,17 +1,14 @@
 #####################################
 # IMPORT
 #####################################
-# from PYTHON.Function.condition import Condition
 from PYTHON.System.data import *
 import PYTHON.System.error as error
-# from PYTHON.Function.function import Function
-# from PYTHON.Function.variable import Variable
 from PYTHON.System.executeFunc import Execute
-
 
 ##########################################
 # MAIN CODE
 ##########################################
+
 
 class Code:
     def __init__(self):
@@ -19,7 +16,6 @@ class Code:
         self.data = Data()
         # self.function = Function()
         self.error = error
-        self.execute = Execute()
 
         # attribute variable stock in data
         self.code = self.data.code.split() if isinstance(self.data.code, str) else self.data.code
@@ -50,8 +46,10 @@ class Code:
 
         # execute different function in code
         for el in self.data.code:
-            if el in self.execute.all_func_syntax:
-                self.execute.exe(0, 'out')
+            if el in Execute().all_func_syntax:
+                Execute(self.code[1:]).exe(0, 'out')
+                Execute(self.code[1:]).exe(1, 'help')
+                Execute(self.code[1:]).exe(2, 'var')
                 break
         else:
             self.error.Error(NameError, 1, CODE_variable_name=self.data.code[0])

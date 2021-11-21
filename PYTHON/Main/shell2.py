@@ -1,7 +1,7 @@
 #####################################
 # IMPORT
 #####################################
-from PYTHON.Main.basic2 import *
+from PYTHON.Main.basic2 import Code
 import PYTHON.System.data as data
 
 #####################################
@@ -9,7 +9,7 @@ import PYTHON.System.data as data
 #####################################
 line = 0
 run = True
-print('\033[92m---> The Qwerdy Language is create by WinstonWolf007 <---'+"\n\t* [VERSION] => [6.1]\033[90m\n")
+print('\033[92m>*< QWERDY >*<\033[90m\n')
 
 #####################################
 # COMMAND LINE
@@ -22,7 +22,7 @@ while run:
     code = txt.split()
 
     # check if there are the comment or if is empty
-    if txt.replace(" ", "") == "" or code[0] == '//' or txt[0] == "/" and txt[1] == '/':
+    if txt.replace(" ", "") == "" or code[0] == '//' or txt[0:2] == "//":
         pass
 
     # detected if the code is in file
