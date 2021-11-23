@@ -2,8 +2,11 @@
 # IMPORT
 #####################################
 import PYTHON.System.data as data
-from PYTHON.Function.function import Function
-from PYTHON.Function.condition import Condition
+from PYTHON.Function import function, condition, variable
+
+Function = function.Function
+Condition = condition.Condition
+Variable = variable.Variable
 
 
 class Execute:
@@ -12,7 +15,7 @@ class Execute:
         self.all_func = {
             'out': Function().out,
             'help': Function().help,
-            'var': Function().var,
+            'var': Variable().var,
             'do': Condition().do
         }
         self.all_func_syntax = [

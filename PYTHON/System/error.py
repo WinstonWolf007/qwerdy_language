@@ -2,7 +2,6 @@
 # IMPORT
 #####################################
 import PYTHON.System.data as data
-from PYTHON.System.checkType import CheckTypeVariable
 
 
 # class 'Error' is used create and display the error in the console
@@ -29,7 +28,11 @@ class Error:
                 f"It missing ':' the end variable type '{self.CODE_variable_type}'",
                 f"Expected '{self.CODE_variable_name_letter}' in variable name is not in [abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]",
                 f"It missing '\"\"' for 'string' type of the variable value '{self.CODE_variable_value}'",
-                "problem in your operator"
+                "problem in your operator",
+                "It missing '=' in the syntax of the variable",
+                "Expected '.' in float variable",
+                "Problem in your value variable",
+                "there must be 1 number on each side of the point"
             ],
 
             # ValueError -> 1 + '2' != 1 + 2
@@ -71,38 +74,3 @@ class Error:
         # display error and exit code
         print("\033[91m" + f"Traceback (most recent call last):\n  File '{self.file}', line {self.line}\n\n\t{self.code_line}\n\n[{str(self.error_type)[8:-2]}]: {self.error_detail}" + "\033[0m")
         exit()
-
-
-# check the syntax error in object
-class CheckIfError:
-
-    # check variable syntax
-    def createVariable(self, name, type_, values):
-
-        if type_[-1] != ":":
-            Error('SyntaxError', 2, CODE_variable_type=type_)
-
-        if name[0] != "$":
-            Error('SyntaxError', 0, CODE_variable_name=name)
-
-        for letters in name[1:]:
-            if letters not in data.LETTERS:
-                Error('SyntaxError', 3, CODE_variable_name_letter=letters)
-
-        if type_[:-1] not in ['int', 'float', 'string', 'bool']:
-            Error('TypeError', 0, CODE_variable_type=type_)
-
-        else:
-
-            if type_[:-1] == 'int' and len(values) == 1 and not CheckTypeVariable(values).is_int():
-                Error('ValueError', 0, CODE_variable_type=type_, CODE_variable_value="".join(values))
-
-            elif type_[:-1] == 'float' and not CheckTypeVariable(values).is_float():
-                Error('ValueError', 0, CODE_variable_type=type_, CODE_variable_value=" ".join(values))
-
-            elif type_[:-1] == 'string' and not CheckTypeVariable(values).is_string():
-                Error('SyntaxError', 4, CODE_variable_value=" ".join(values))
-
-            elif type_[:-1] == 'bool':
-                if len(values) == 1 and values[0] not in ['true', 'false']:
-                    Error('ValueError', 0, CODE_variable_value=values[0])

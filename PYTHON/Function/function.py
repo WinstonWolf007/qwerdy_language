@@ -21,7 +21,8 @@ class Function:
     def out(self, ops):
         ChangeVariableForValue(ops).changeData()
 
-        if CheckTypeVariable(ops).is_string() or CheckTypeVariable(ops).is_bool():
+        if CheckTypeVariable(ops).is_string()[0] or CheckTypeVariable(ops).is_bool()[0]:
+            print('#1')
             print('\033[34m' + " ".join(ops) + '\033[0m')
         else:
             number = ops[0::2]
@@ -58,8 +59,10 @@ class Function:
                         oper += 1
 
                 try:
-                    result = eval(resultSTR)
-                    print('\033[34m' + str(result) + '\033[0m')
+                    print('#2')
+                    print(resultSTR)
+                    # result = eval(resultSTR)
+                    # print('\033[34m' + str(result) + '\033[0m')
 
                 except ZeroDivisionError:
                     e = True
@@ -69,12 +72,6 @@ class Function:
                     Error(SyntaxError, 5)
             except:
                 Error(ValueError, 1, CODE_variable_value=number)
-
-    def var(self, ops):
-        name = ops[0]
-        equal = ops[1]
-        value = ops[2]
-        print(f'{name}\n{equal}\n{value}')
 
     # the create function is used for create the function in 'qwerdy' language
     """def created_function(self, name, parameter: list):
