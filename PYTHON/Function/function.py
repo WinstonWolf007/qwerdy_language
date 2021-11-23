@@ -20,9 +20,7 @@ class Function:
     # the out function is used for display in console
     def out(self, ops):
         ChangeVariableForValue(ops).changeData()
-
         if CheckTypeVariable(ops).is_string()[0] or CheckTypeVariable(ops).is_bool()[0]:
-            print('#1')
             print('\033[34m' + " ".join(ops) + '\033[0m')
         else:
             number = ops[0::2]
@@ -59,10 +57,8 @@ class Function:
                         oper += 1
 
                 try:
-                    print('#2')
-                    print(resultSTR)
-                    # result = eval(resultSTR)
-                    # print('\033[34m' + str(result) + '\033[0m')
+                    result = eval(resultSTR)
+                    print('\033[34m' + str(result) + '\033[0m')
 
                 except ZeroDivisionError:
                     e = True
