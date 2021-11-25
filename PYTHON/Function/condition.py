@@ -22,8 +22,7 @@ class Condition:
     def do(self, ops):
 
         # variable attribution
-        name1_, name2_ = ops[0], ops[2]
-        operator_ = ops[1]
+        name1_, name2_, operator_ = ops
         values = ChangeVariableForValue([name1_, operator_, name2_]).changeData()
         values[0] = self.Type(values[0])
         values[2] = self.Type(values[2])

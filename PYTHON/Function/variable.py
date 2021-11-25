@@ -41,6 +41,7 @@ class Variable:
         elif name[0] != '$':
             self.error.Error(SyntaxError, 0)
 
+        # check if there are the incorect char (exp: &$(937)
         for el in name[1:]:
             if el not in data.LETTERS:
                 self.error.Error(SyntaxError, 3, CODE_variable_name_letter=el)

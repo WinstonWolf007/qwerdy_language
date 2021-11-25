@@ -6,11 +6,7 @@ class CheckTypeVariable:
 
     # check if the type is 'int' -> (1, 4, 54, -23, -2, 9)
     def is_int(self):
-        try:
-            value = int(self.value_variable[0])
-        except:
-            return False, None
-        return True, None
+        return str(self.value_variable[0]).isdigit(), None
 
     # check if the type is 'float' -> (2.40, 4.7, -1.5, -0.5, 9.10)
     def is_float(self):
@@ -36,10 +32,7 @@ class CheckTypeVariable:
 
     # check if the type is 'bool' -> (true, false)
     def is_bool(self):
-        if self.value_variable[0] in ['true', 'false']:
-            return True, None
-        else:
-            return False, None
+        return self.value_variable[0] in ['true', 'false'], None
 
     # check all type and return True if is to exist else False
     def is_type(self):
