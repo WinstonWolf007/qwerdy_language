@@ -29,19 +29,16 @@ class Function:
             num = 0
             oper = 0
             bools = True
-            j = 0
 
-            for i in number:
+            for j, i in enumerate(number):
                 if self.data.GET_var().get(str(i[1:])) is None:
-                    j += 1
+                    pass
                 else:
                     if self.data.GET_var().get(str(i[1:]))[0] in ['float', 'int']:
                         if self.data.GET_var().get(str(i[1:]))[0] == 'int':
                             number[j] = int(self.data.GET_var().get(str(i[1:]))[1])
-                            j += 1
                         else:
                             number[j] = float(self.data.GET_var().get(str(i[1:]))[1])
-                            j += 1
                     else:
                         Error('FatalError', 0, data.LINE, data.CODE, data.FILE)
 
@@ -59,11 +56,8 @@ class Function:
                 try:
                     result = eval(resultSTR)
                     print('\033[34m' + str(result) + '\033[0m')
-
                 except ZeroDivisionError:
-                    e = True
                     Error(ZeroDivisionError, 0, CODE_variable_value=number)
-
                 except:
                     Error(SyntaxError, 5)
             except:

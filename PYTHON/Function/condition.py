@@ -42,7 +42,7 @@ class Condition:
 
     # IF, ELSIF, ELSE conditon is big condition -> IF: 1 == 1, ELSIF: 2 != 2, ELSE: [...]
     def if_elif_else(self, ops):
-
+        pass
         """
 
         to change for the futur
