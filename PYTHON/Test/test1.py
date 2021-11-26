@@ -1,5 +1,5 @@
-def is_int(value):
-    return value.isdigit(), None
+from PYTHON.System.color import Color
 
+txt = 'hello'
 
-print(is_int('true'))
+print(Color(txt=txt).yellow())
