@@ -3,6 +3,8 @@
 #####################################
 from PYTHON.Main.main import Code
 import PYTHON.System.data as data
+from PYTHON.System.color import Color
+
 
 if __name__ == '__main__':
 
@@ -11,7 +13,7 @@ if __name__ == '__main__':
     #####################################
     line = 0
     run = True
-    print('\033[92m>*< QWERDY >*<\033[90m\n')
+    print(Color(txt='// QWERDY //').green())
 
     #####################################
     # COMMAND LINE
@@ -22,9 +24,10 @@ if __name__ == '__main__':
         line += 1
 
         try:
-            txt = input(f"\033[90m[{line}] \033[0m")
+            txt = input(Color(txt=f'[{line}] ').black())
             code = txt.split()
         except KeyboardInterrupt:
+            txt, code = None, None
             print('\nexit code 0')
             exit()
 
