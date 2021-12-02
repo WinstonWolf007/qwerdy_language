@@ -1,7 +1,7 @@
 #####################################
 # IMPORT
 #####################################
-from PYTHON.Main.main import Code
+from main import Code
 import PYTHON.System.data as data
 from PYTHON.System.color import Color
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     #####################################
     line = 0
     run = True
-    print(Color(txt='// QWERDY //').green())
+    print(Color(txt='''** Qwerdy Language **''').green())
 
     #####################################
     # COMMAND LINE

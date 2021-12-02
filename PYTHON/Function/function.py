@@ -19,7 +19,7 @@ class Function:
 
     # the out function is used for display in console
     def out(self, ops):
-        ChangeVariableForValue(ops).changeData()
+        ops = list(map(str, ChangeVariableForValue(ops).changeData()))
         if CheckTypeVariable(ops).is_string()[0] or CheckTypeVariable(ops).is_bool()[0]:
             print('\033[34m' + " ".join(ops) + '\033[0m')
         else:

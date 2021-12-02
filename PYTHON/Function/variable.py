@@ -4,6 +4,7 @@
 import PYTHON.System.error as error
 import PYTHON.System.data as data
 from PYTHON.System.checkType import CheckTypeVariable
+from PYTHON.System.changeVariableInOperator import ChangeVariableForValue
 
 
 # class 'Variable' is used display type, value the variables
@@ -31,7 +32,18 @@ class Variable:
     def var(self, ops: list):
         name = ops[0]
         equal = ops[1]
-        value = ops[2:]
+        value, saveValue = ops[2:], ops[2:]
+
+        value = ChangeVariableForValue(value).changeData()
+
+        try:
+            value = list(map(str, ChangeVariableForValue(value).changeData()))
+            return [eval(" ".join(value))]
+        except:
+            if len(value) == 1 and CheckTypeVariable(value).is_type2():
+                pass
+            else:
+                return '\033[91m' + 'SyntaxError: invalid operator' + '\033[0m'
 
         # check if there are the one equal
         if equal != '=':

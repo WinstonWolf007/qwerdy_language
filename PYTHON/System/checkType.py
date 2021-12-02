@@ -10,7 +10,7 @@ class CheckTypeVariable:
 
     # check if the type is 'float' -> (2.40, 4.7, -1.5, -0.5, 9.10)
     def is_float(self):
-        if '.' in self.value_variable[0]:
+        if '.' in str(self.value_variable[0]):
             if str(self.value_variable[0]).count('.') != 1:
                 return False, 'error'
             else:
@@ -24,7 +24,7 @@ class CheckTypeVariable:
 
     # check if the type is 'string' -> ("hello", "1", "3.4", "A", "true")
     def is_string(self):
-        if self.value_variable[0][0] == '"' or self.value_variable[-1][-1] == '"':
+        if str(self.value_variable[0])[0] == '"' or str(self.value_variable[-1])[-1] == '"':
             if self.value_variable[0][0] == '"' and self.value_variable[-1][-1] == '"':
                 return True, None
             return False, 'error'
@@ -45,7 +45,7 @@ class CheckTypeVariable:
             return True, 'string'
         elif CheckTypeVariable(value).is_bool()[0]:
             return True, 'bool'
-        return False
+        return False, None
 
     def is_type2(self):
         if CheckTypeVariable(self.value_variable).is_type()[0]:
